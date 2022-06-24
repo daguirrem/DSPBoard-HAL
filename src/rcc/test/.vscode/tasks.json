@@ -1,0 +1,321 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "build",
+			"args": [
+				"build",
+				/*Toolchain*/
+				"CMSIS_PATH=${config:path_CMSIS}",
+				"OPTIMIZATION=${config:compiler_option_optimization}",
+				"TOOLCHAIN=${config:path_toolchain}",
+				/*Build*/
+				"TARGET=${command:cpptools.activeConfigName}",
+				"PRJ_NAME=${config:name_project}",
+				"EXT_LIB_PATH=${config:path_lib}",
+				/*Config*/
+				"HSE_VALUE=${config:mcu_hse_frecuency}",
+				"FPU_HARDWARE=${config:mcu_fpu_hardware}"
+			],
+			"windows": {
+				"command": "${config:path_xpack_windows}/make.exe",
+				"args": [
+					"build",
+					/*Toolchain*/
+					"CMSIS_PATH=${config:path_CMSIS}",
+					"OPTIMIZATION=${config:compiler_option_optimization}",
+					"TOOLCHAIN=${config:path_toolchain}",
+					/*Build*/
+					"TARGET=${command:cpptools.activeConfigName}",
+					"PRJ_NAME=${config:name_project}",
+					"EXT_LIB_PATH=${config:path_lib}",
+					/*Config*/
+					"HSE_VALUE=${config:mcu_hse_frecuency}",
+					"FPU_HARDWARE=${config:mcu_fpu_hardware}",
+					/*Other*/
+					"XPACK=${config:path_xpack_windows}"
+				]
+			},
+			"linux":{
+				"command": "make",
+			},
+			"osx":{
+				"command": "make",
+			},
+			
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build"
+			},
+			"presentation": {
+				"echo": false,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": false
+			}
+		},
+		{
+			"type": "shell",
+			"label": "clean",
+			"args": [
+				"clean",
+				/*Toolchain*/
+				"CMSIS_PATH=${config:path_CMSIS}",
+				"OPTIMIZATION=${config:compiler_option_optimization}",
+				"TOOLCHAIN=${config:path_toolchain}",
+				/*Build*/
+				"TARGET=${command:cpptools.activeConfigName}",
+				"PRJ_NAME=${config:name_project}",
+				"EXT_LIB_PATH=${config:path_lib}",
+				/*Config*/
+				"HSE_VALUE=${config:mcu_hse_frecuency}",
+				"FPU_HARDWARE=${config:mcu_fpu_hardware}"
+			],
+			"windows": {
+				"command": "${config:path_xpack_windows}/make.exe",
+				"args": [
+					"clean",
+					/*Toolchain*/
+					"CMSIS_PATH=${config:path_CMSIS}",
+					"OPTIMIZATION=${config:compiler_option_optimization}",
+					"TOOLCHAIN=${config:path_toolchain}",
+					/*Build*/
+					"TARGET=${command:cpptools.activeConfigName}",
+					"PRJ_NAME=${config:name_project}",
+					"EXT_LIB_PATH=${config:path_lib}",
+					/*Config*/
+					"HSE_VALUE=${config:mcu_hse_frecuency}",
+					"FPU_HARDWARE=${config:mcu_fpu_hardware}",
+					/*Other*/
+					"XPACK=${config:path_xpack_windows}"
+				]
+			},
+			"linux":{
+				"command": "make",
+			},
+			"osx":{
+				"command": "make",
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"echo": false,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": false
+			}
+		},
+		{
+			"type": "shell",
+			"label": "program",
+			"args": [
+				"program",
+				/*Toolchain*/
+				"CMSIS_PATH=${config:path_CMSIS}",
+				"OPTIMIZATION=${config:compiler_option_optimization}",
+				"TOOLCHAIN=${config:path_toolchain}",
+				/*Build*/
+				"TARGET=${command:cpptools.activeConfigName}",
+				"PRJ_NAME=${config:name_project}",
+				"EXT_LIB_PATH=${config:path_lib}",
+				/*Config*/
+				"HSE_VALUE=${config:mcu_hse_frecuency}",
+				"FPU_HARDWARE=${config:mcu_fpu_hardware}",
+				"BMP_COMMAND=${config:path_sdk}/bmp/blackmagic",
+				"ST_COMMAND=${config:path_sdk}/utils/openocd/0.11.0-3/x64/bin/openocd",
+				"PROGRAMMER=${config:programmer}"
+			],
+			"windows": {
+				"command": "${config:path_xpack_windows}/make.exe",
+				"args": [
+					"program",
+					/*Toolchain*/
+					"CMSIS_PATH=${config:path_CMSIS}",
+					"OPTIMIZATION=${config:compiler_option_optimization}",
+					"TOOLCHAIN=${config:path_toolchain}",
+					/*Build*/
+					"TARGET=${command:cpptools.activeConfigName}",
+					"PRJ_NAME=${config:name_project}",
+					"EXT_LIB_PATH=${config:path_lib}",
+					/*Config*/
+					"HSE_VALUE=${config:mcu_hse_frecuency}",
+					"FPU_HARDWARE=${config:mcu_fpu_hardware}",
+					/*Other*/
+					"XPACK=${config:path_xpack_windows}",
+					"BMP_COMMAND=${config:path_sdk}/bmp/blackmagic.exe",
+					"ST_COMMAND=${config:path_sdk}/utils/openocd/0.11.0-3/x64/bin/openocd.exe",
+					"PROGRAMMER=${config:programmer}"
+				]
+			},
+			"linux":{
+				"command": "make",
+			},
+			"osx":{
+				"command": "make",
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"presentation": {
+				"echo": false,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": false
+			}
+		},
+		{
+			"type": "shell",
+			"label": "importInclude",
+			"args": [
+				"incl_imp",
+				/*Build*/
+				"EXT_LIB_PATH=${config:path_lib}",
+			],
+			"windows": {
+				"command": "${config:path_xpack_windows}/make.exe",
+				"args": [
+					"incl_imp",
+					/*Build*/
+					"EXT_LIB_PATH=${config:path_lib}",
+					/*Other*/
+					"XPACK=${config:path_xpack_windows}"
+				]
+			},
+			"linux":{
+				"command": "make",
+			},
+			"osx":{
+				"command": "make",
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"presentation": {
+				"echo": false,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": false
+			}
+		},
+		{
+			"type": "shell",
+			"label": "size",
+			"command": "${config:path_powershell}",
+			"windows":{
+				"args": [   
+					"-ExecutionPolicy",
+					"Unrestricted",
+					"-NoProfile",
+					"-File",
+					"${config:path_sdk}/utils/size.ps1",
+					"${config:path_toolchain}/bin/arm-none-eabi-size.exe",
+					"${workspaceFolder}/output/${command:cpptools.activeConfigName}/${config:name_project}.elf",
+					"512", /*Flash size */
+					"128", /*RAM size */
+					"64",  /*CCM size */
+					"4",   /*BKP size */
+				],
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"dependsOn": ["build"],
+			"presentation": {
+				"echo": false,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": false
+			}
+		},
+		{
+			"type": "shell",
+			"label": "reference manual",
+			"windows":{
+				"command": "& '${config:path_sdk}/docs/stm32f407_reference_manual.pdf'",
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"echo": false,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": false
+			}
+		},
+		{
+			"type": "shell",
+			"label": "datasheet",
+			"windows":{
+				"command": "& '${config:path_sdk}/docs/stm32f407_datasheet.pdf'",
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"echo": false,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": false
+			}
+		},
+		{
+			"type": "shell",
+			"label": "serial",
+			"windows":{
+				"command": "& 'C:/Program Files/Serial Studio/bin/SerialStudio.exe'",
+			},
+			"args": [
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"echo": false,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": false
+			}
+		}
+	],
+	"inputs": [
+	]
+}

@@ -1,0 +1,3 @@
+
+INCLUDEDEFINE += \
+	TEST=1

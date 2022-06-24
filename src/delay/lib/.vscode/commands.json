@@ -1,0 +1,22 @@
+{
+	"commands": [
+		{
+			"text": "$(trashcan)",
+			"command": "workbench.action.tasks.runTask",
+			"arguments": [
+				"clean lib"
+			],
+			"tooltip": "Clean project",
+			"alignment": "right"
+		},
+		{
+			"text": "$(tools)",
+			"command": "workbench.action.tasks.runTask",
+			"arguments": [
+				"build lib"
+			],
+			"tooltip": "Build project",
+			"alignment": "right"
+		}
+	]
+}
