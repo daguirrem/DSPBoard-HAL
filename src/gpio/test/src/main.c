@@ -49,19 +49,25 @@ int main (void)
 {
     sys_clk_update();
     /* GPIO[A,B,C] clock should be enabled on RCC register ----------------|*/
-    gpio_clk_en(GPIOA_RCC | GPIOB_RCC | GPIOE_RCC);                  /*<-|*/  /*[ok]*/
+    gpio_clk_en(GPIOA_RCC | GPIOB_RCC | GPIOE_RCC);                    /*<-|*/  /*[ok]*/
 
     /* GPIOB RCC clock should be disabled ---------------------------------|*/
-    gpio_clk_dis(GPIOB_RCC);                                         /*<-|*/  /*[ok]*/
+    gpio_clk_dis(GPIOB_RCC);                                           /*<-|*/  /*[ok]*/
 
     /* GPIOA leds[1:0] should be configured as output pins ----------------|*/
     gpio_config_mode(GPIOA, GPIO_MODE_OUTPUT, leds[0] | leds[1]);      /*<-|*/  /*[ok]*/
 
     /* Leds on board should be on -----------------------------------------|*/
     gpio_port_set(GPIOA, leds[0] | leds[1]);                           /*<-|*/  /*[ok]*/
-    
+
     /* Led D3 on board should be off --------------------------------------|*/
-    gpio_port_clr(GPIOA, leds[0]);                                    /*<-|*/  /*[ok]*/
+    gpio_port_clr(GPIOA, leds[0]);                                     /*<-|*/  /*[ok]*/
+
+    /* GPIOA_OTYPER[6] should be 1 [Open-Drain] ---------------------------|*/
+    gpio_config_output_mode(GPIOA, GPIO_OUTPUT_OD, GPIO_IO6);          /*<-|*/  /*[ok]*/
+
+    /* GPIOA_OTYPER[6] should be 0 [Push-Pull] ----------------------------|*/
+    gpio_config_output_mode(GPIOA, GPIO_OUTPUT_PP, GPIO_IO6);          /*<-|*/  /*[ok]*/
 
     /* GPIOE buttons[1:0] should be configured as input pull-up pins ------|*/
     gpio_config_all(                                                     /*|*/

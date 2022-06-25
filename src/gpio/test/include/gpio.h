@@ -444,7 +444,7 @@ void gpio_config_mode (GPIO_TypeDef *gpio, gpio_mode_t mode, gpio_io_t mask);
  * @code
  * ...
  * // This enable GPIOA[4,0] as output open-drain mode specification.
- * gpio_config_output_mode(GPIOA, GPIO_MODE_INPUT, GPIO_IO0 | GPIO_IO4);
+ * gpio_config_output_mode(GPIOA, GPIO_OUTPUT_OD, GPIO_IO0 | GPIO_IO4);
  * ...
  * @endcode
  */
@@ -453,7 +453,10 @@ __FORCE_INLINE void gpio_config_output_mode (
 )
 {
     gpio->OTYPER &= ~mask;
-    gpio->OTYPER |= mask;
+    if (mode == GPIO_OUTPUT_OD)
+    {
+        gpio->OTYPER |= mask;
+    }
 }
 
 /** ### gpio:configure:speed:
