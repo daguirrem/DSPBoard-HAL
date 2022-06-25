@@ -4,7 +4,7 @@
 		"body": [
 			"/**",
 			" * @file $TM_FILENAME",
-			" * @author David A. Aguirre M. (daguirre.m@outlook.com)",
+			" * @author David A. Aguirre M. <daguirre.m@outlook.com>",
 			" * @brief ",
 			" * @version d0.1",
 			" * @date $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE",
@@ -48,7 +48,7 @@
 		"body": [
 			"/**",
 			" * @file $TM_FILENAME",
-			" * @author David A. Aguirre M. (daguirre.m@outlook.com)",
+			" * @author David A. Aguirre M. <daguirre.m@outlook.com>",
 			" * @brief ",
 			" * @version d0.1",
 			" * @date $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE",
@@ -74,6 +74,7 @@
 			" * SOFTWARE.",
 			" * ",
 			" */",
+			"",
 			"#include \"$TM_FILENAME_BASE.h\"",
 			"$0"
 		],
@@ -84,7 +85,7 @@
 		"body": [
 			"/**",
 			" * @file $TM_FILENAME",
-			" * @author David A. Aguirre M. (daguirre.m@outlook.com)",
+			" * @author David A. Aguirre M. <daguirre.m@outlook.com>",
 			" * @brief ",
 			" * @version d0.1",
 			" * @date $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE",
@@ -110,9 +111,20 @@
 			" * SOFTWARE.",
 			" * ",
 			" */",
+			"",
 			"#ifndef _${TM_FILENAME_BASE/(.*)/${1:/upcase}/}_H_",
 			"#define _${TM_FILENAME_BASE/(.*)/${1:/upcase}/}_H_",
+			"",
+			"#ifdef __cplusplus",
+			"extern \"C\" {",
+			"#endif /* __cplusplus */",
+			"",
 			"$0",
+			"",
+			"#ifdef __cplusplus",
+			"}",
+			"#endif /* __cplusplus */",
+			"",
 			"#endif /* _${TM_FILENAME_BASE/(.*)/${1:/upcase}/}_H_ */"
 		],
 		"description": "newHeader"

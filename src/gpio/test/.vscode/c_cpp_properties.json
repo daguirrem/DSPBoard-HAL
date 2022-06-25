@@ -2,7 +2,7 @@
     "env": {
         "defaultIncludePath": [
             "${workspaceFolder}/include",
-            "${workspaceFolder:Librería}/include",
+            "${workspaceFolder}/libs/**",
             "${config:path_CMSIS}/Include",
             "${config:path_device}/Include",
             "${config:path_lib}/include",

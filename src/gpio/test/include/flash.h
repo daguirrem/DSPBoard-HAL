@@ -35,7 +35,7 @@
 #define _FLASH_H_
 
 /**
- * @addtogroup flash Flash
+ * @addtogroup flash FLASH
  */
 
 /**
@@ -138,6 +138,7 @@ __FORCE_INLINE void flash_acr_config_rst(flash_config_t config)
 }
 
 /** ### flash:acr:configuration:automatically
+ * @ingroup public_flash
  * @brief Automatically configure the ACR according system clock.
  * 
  * Configure the flash latency according with the target clock to configure.

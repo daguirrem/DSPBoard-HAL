@@ -11,7 +11,7 @@
 	],
 	"settings": {
 		/* User configurations */
-		"path_sdk": "E:/David/Documentos/MEGAsync/Trabajo/STM/.dspboardSDK", //!< SDK Installation path
+		"path_sdk": "E:/David/Documents/MEGAsync/Trabajo/STM/.dspboardSDK", //!< SDK Installation path
 		"programmer": "bmp", //!< Specify the programmer, only can be 'bmp' or 'stlink'.
 		"bmp_port":  "COM1", //!< Black Magic Probe Debugger COM port. (If COM >= 10, then "\\\\.\\COMx")
 		
