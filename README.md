@@ -1,6 +1,8 @@
 # DSP Board HAL
 
-<center>![ALTELEC Logo](docs/frame_logo_github.png)</center>
+<p align="center">
+  <img src="docs/frame_logo_github.png">
+</p>
 
 ## English
 [In development]  
@@ -9,7 +11,7 @@ This repository have a custom HAL libraries to DSP Board used by software develo
 ### Repository Structure
 
 * **docs**  
-  This folder contains a doxygen generated documentation of source code (English)
+  This folder contains a doxygen generated documentation of source code (English) [API Documentation](https://daguirrem.github.io/DSPBoardHAL/index.html)
 
 * **src**  
   This folder contains a source code of each libary:  
@@ -35,7 +37,7 @@ Este repositorio contiene las librerías HAL para la tarjeta _DSP Board_ usadas 
 ### Estructura del repositorio
 
 * **docs**  
-  Esta carpeta contiene la documentación de la fuente de código generada por doxygen (Inglés)
+  Esta carpeta contiene la documentación de la fuente de código generada por doxygen (Inglés) [Documentación de la API](https://daguirrem.github.io/DSPBoardHAL/index.html)
 
 * **src**  
   Esta carpeta contiene el codigo fuente de las siguientes librerías:  
