@@ -1,7 +1,7 @@
 /**
  * @file delay.h
  * @author David A. Aguirre M. (daguirre.m@outlook.com)
- * @brief Delay - Custom HAL for DSP Board SDK.
+ * @brief DELAY - Custom HAL for DSP Board SDK.
  * @version d0.3
  * @date 2022-05-02
  * 

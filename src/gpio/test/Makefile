@@ -91,7 +91,9 @@ OBJECT_PATH = build/$(TARGET)/src
 # Libraries
 LIBS_INCLUDE = \
 	rcc \
+	flash \
 	gpio \
+	adc \
 	delay
 
 LIBS += $(foreach lib, $(LIBS_INCLUDE),-l$(lib))
@@ -163,7 +165,7 @@ LDFLAGS = $(MCU) -specs=nano.specs -specs=nosys.specs -T$(LDSCRIPT) $(LIBDIR) $(
 
 # Source flags
 ASMFLAGS = $(MCU) $(ASM_DEFINES) $(ASM_INCLUDES) $(OPT_FLAG)\
--x assembler-with-cpp -Wall -Wextra -fdata-sections -ffunction-sections
+-x assembler-with-cpp -Wall -Wextra -fdata-sections -ffunction-sections $(DEBUG)
 
 CFLAGS = $(MCU) $(CANDCPP_DEFINES) $(CANDCPP_INCLUDES) $(OPT_FLAG) -std=$(CSTANDARD)\
 -x c -Wall -Wextra -fdata-sections -ffunction-sections $(DEBUG)
