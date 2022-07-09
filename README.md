@@ -1,9 +1,11 @@
-# DSP Board HAL
 
 <p align="center">
-  <img src="docs/frame_logo_github.png">
+  <img src="docs/usb_logo_github.png" height="150">
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="docs/frame_logo_github.png" height="150">
 </p>
 
+# DSP Board HAL
 ## English
 [In development]  
 This repository have a custom HAL libraries to DSP Board used by software development kit _DSP Board SDK_
