@@ -26,7 +26,7 @@ This repository have a custom HAL libraries to DSP Board used by software develo
   
   Every library have a source code folder and the test folder.
 
-* **include**
+* **include**  
   This folder contains a library include files used by _DSP Board SDK_
 
 * **examples**  
@@ -55,7 +55,7 @@ Este repositorio contiene las librerías HAL para la tarjeta _DSP Board_ usadas 
   
   Cada una de las librerías contiene su carpeta de código fuente y de pruebas.
 
-* **include**
+* **include**  
   Esta carpeta contiene los _include_ de las librerías usadas por _DSP Board SDK_
 
 * **examples**  
