@@ -26,11 +26,14 @@ This repository have a custom HAL libraries to DSP Board used by software develo
   
   Every library have a source code folder and the test folder.
 
+* **include**
+  This folder contains a library include files used by _DSP Board SDK_
+
 * **examples**  
   This folder contains a DSP Board examples and HAL examples
 
 ### License
-  _DSP Borad HAL_ is licensed by MIT License, more information on [LICENSE.md](LICENSE.md)
+  _DSP Board HAL_ is licensed by MIT License, more information on [LICENSE.md](LICENSE.md)
 
 ## Español
 [En desarrollo]  
@@ -51,6 +54,9 @@ Este repositorio contiene las librerías HAL para la tarjeta _DSP Board_ usadas 
   <br />
   
   Cada una de las librerías contiene su carpeta de código fuente y de pruebas.
+
+* **include**
+  Esta carpeta contiene los _include_ de las librerías usadas por _DSP Board SDK_
 
 * **examples**  
   Esta carpeta contiene ejemplos de uso del HAL y de la tarjeta de desarrollo
