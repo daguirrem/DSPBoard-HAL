@@ -37,8 +37,8 @@
  * @ingroup adc
  */
 
-adc_seqr_rgl_t adc_sequencer_rgl;
-adc_seqr_ijt_t adc_sequencer_ijt;
+// adc_seqr_rgl_t adc_sequencer_rgl;
+// adc_seqr_ijt_t adc_sequencer_ijt;
 
 const uint16_t resbits_decode[] = {
     4095, /* 12 Bits */
@@ -47,14 +47,11 @@ const uint16_t resbits_decode[] = {
     63    /*  6 Bits */
 };
 
-void adc_config_ind_scan(
-    ADC_TypeDef *adc, adc_res_t resolution, adc_align_t alignment, 
-    adc_pre_t prescaler
+void adc_ind_config(
+    ADC_TypeDef *adc, adc_res_t resolution, adc_align_t alignment
 )
 {
-    ADC->CCR = 0;
-    ADC->CCR |= prescaler << ADC_CCR_ADCPRE_Pos;
-
+    ADC->CCR &= ~ADC_CCR_MULTI;
     adc->CR1 = 0;
     adc->CR1 |= (resolution << ADC_CR1_RES_Pos); // | ADC_CR1_SCAN;
 
@@ -62,45 +59,69 @@ void adc_config_ind_scan(
     adc->CR2 |= (alignment << ADC_CR2_ALIGN_Pos) | ADC_CR2_EOCS;
 }
 
-void adc_config_seq_rgl(ADC_TypeDef *adc)
+int8_t adc_config_seq_rgl(ADC_TypeDef *adc, adc_seqr_rgl_t *sequencer)
 {
+    if (sequencer->lenght > 16) return -1; // Sequencer lenght not allowed
+
     adc->SQR1 = 0;
     adc->SQR2 = 0;
     adc->SQR3 = 0;
-    adc->SQR1 |= ((adc_sequencer_rgl.lenght - 1) << ADC_SQR1_L_Pos);
+    adc->SQR1 |= ((sequencer->lenght - 1) << ADC_SQR1_L_Pos);
     
-    for (uint8_t i = 0; i < adc_sequencer_rgl.lenght; i++)
+    for (uint8_t i = 0; i < sequencer->lenght; i++)
     {
-        if (i <= 6) {
-            adc->SQR3 |= adc_sequencer_rgl.sequece[i] << (i*5);
-        } else if (i <= 12) {
-            adc->SQR2 |= adc_sequencer_rgl.sequece[i] << (i*5);
-        } else {
-            adc->SQR1 |= adc_sequencer_rgl.sequece[i] << (i*5);
+        if (i <= 6)
+        {
+            adc->SQR3 |= sequencer->sequece[i] << (i*5);
+        }
+        else if (i <= 12)
+        {
+            adc->SQR2 |= sequencer->sequece[i] << (i*5);
+        }
+        else
+        {
+            adc->SQR1 |= sequencer->sequece[i] << (i*5);
         }
     }
 
     adc->SR = 0;
+    return 0;
 }
 
-void adc_config_seq_ijt(ADC_TypeDef *adc)
+int8_t adc_config_seq_ijt(ADC_TypeDef *adc, adc_seqr_ijt_t *sequencer)
 {
+    if(sequencer->lenght > 4) return -1; // Sequencer lenght not allowed
+
     adc->JSQR = 0;
-    adc->JSQR |= ((adc_sequencer_rgl.lenght - 1) << ADC_JSQR_JL_Pos);
+    adc->JSQR |= ((sequencer->lenght - 1) << ADC_JSQR_JL_Pos);
 
-    for (uint8_t i = 0; i < adc_sequencer_rgl.lenght; i++)
+    for (uint8_t i = 0; i < sequencer->lenght; i++)
     {
-        adc->JSQR |= adc_sequencer_ijt.sequece[i] << (i*5);
+        adc->JSQR |= sequencer->sequece[i] << (i*5);
     }
+
+    adc->SR = 0;
+    return 0;
 }
 
-void adc_read_ind_scan(ADC_TypeDef *adc)
+void adc_ind_read_scan_rgl(ADC_TypeDef *adc, adc_seqr_rgl_t *sequencer)
 {
-    adc->CR2 |= ADC_CR2_SWSTART;
-    for(uint8_t i = 0; i < adc_sequencer_rgl.lenght; i++)
+    adc_sw_start(adc);
+    for(uint8_t i = 0; i < sequencer->lenght; i++)
     {
         while((adc->SR & ADC_SR_EOC) == 0);
-        adc_sequencer_rgl.raw[i] = adc->DR;
+        sequencer->raw[i] = adc->DR;
+    }
+    adc->SR &= ~ADC_SR_STRT;
+}
+
+void adc_ind_read_scan_ijt(ADC_TypeDef *adc, adc_seqr_ijt_t *sequencer)
+{
+    adc_sw_start(adc);
+    for(uint8_t i = 0; i < sequencer->lenght; i++)
+    {
+        while((adc->SR & ADC_SR_EOC) == 0);
+        sequencer->raw[i] = adc->DR;
     }
     adc->SR &= ~ADC_SR_STRT;
 }

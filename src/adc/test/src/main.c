@@ -32,6 +32,8 @@
 #include "gpio.h"
 #include "delay.h"
 
+adc_seqr_rgl_t adc_rgl;
+
 int main (void)
 {
     gpio_clk_en(GPIOA_RCC);
@@ -42,22 +44,29 @@ int main (void)
     
     /* ADC clock 2 & 3 should be disabled ----------------------------------|*/
     adc_clk_dis(ADC2_RCC | ADC3_RCC);                                   /*<-|*/ /*[]*/
-    adc_sequencer_rgl.sequece[0] = 0;
-    adc_sequencer_rgl.sequece[1] = 17;
-    adc_sequencer_rgl.sequece[2] = 16;
-    adc_sequencer_rgl.lenght = 3;
-    adc_config_seq_rgl(ADC1);
-
-    adc_config_ind_scan(
-        ADC1, ADC_RES_12BITS, ADC_ALIGN_RIGHT, ADC_PRE_8
-    );
     
-    adc_internalch_en(ADC_INCH_TVREF);
-    adc_power_on(ADC1);
+    adc_common_config_pre(ADC_PRE_8);
+    adc_ind_config(ADC1, ADC_RES_12BITS, ADC_ALIGN_RIGHT);
 
-    while(1) {
-        adc_read_ind_scan(ADC1);
-        adc_seq_get_voltages(ADC_RES_12BITS);
+    adc_ind_config_seq_sgl(ADC1, 0);
+    adc_power_on(ADC1);
+    volatile uint32_t adc_read = adc_ind_read_sgl(ADC1);
+    
+    
+    adc_rgl.lenght = 3;
+    adc_rgl.sequece[0] = 0;
+    adc_rgl.sequece[1] = 17;
+    adc_rgl.sequece[2] = 16;
+    adc_config_seq_rgl(ADC1, &adc_rgl);
+    adc_ind_mode_scan(ADC1);
+    
+    
+    adc_ich_en(ADC_INCH_TVREF);
+
+    while(1)
+    {
+        adc_ind_read_scan_rgl(ADC1, &adc_rgl);
+        adc_seq_get_voltages_rgl(&adc_rgl, ADC_RES_12BITS);
         delay_ms(100);
     }
 }
