@@ -13,7 +13,8 @@
 				/*Build*/
 				"TARGET=${command:cpptools.activeConfigName}",
 				"PRJ_NAME=${config:name_project}",
-				"EXT_LIB_PATH=${config:path_lib}",
+				"EXT_LIB_PATH=${config:path_lib}/src",
+				"EXT_LIB_INCLUDE=${config:path_lib}/include",
 				/*Config*/
 				"HSE_VALUE=${config:mcu_hse_frecuency}",
 				"FPU_HARDWARE=${config:mcu_fpu_hardware}"
@@ -29,7 +30,8 @@
 					/*Build*/
 					"TARGET=${command:cpptools.activeConfigName}",
 					"PRJ_NAME=${config:name_project}",
-					"EXT_LIB_PATH=${config:path_lib}",
+					"EXT_LIB_PATH=${config:path_lib}/src",
+					"EXT_LIB_INCLUDE=${config:path_lib}/include",
 					/*Config*/
 					"HSE_VALUE=${config:mcu_hse_frecuency}",
 					"FPU_HARDWARE=${config:mcu_fpu_hardware}",
@@ -55,13 +57,13 @@
 			},
 			"presentation": {
 				"echo": false,
-				"reveal": "never",
+				"reveal": "always",
 				"focus": false,
 				"panel": "shared",
 				"showReuseMessage": false,
-				"clear": false
+				"clear": true
 			},
-			"dependsOn":["importInclude"]
+			// "dependsOn":["importInclude"]
 		},
 		{
 			"type": "shell",
@@ -75,10 +77,6 @@
 				/*Build*/
 				"TARGET=${command:cpptools.activeConfigName}",
 				"PRJ_NAME=${config:name_project}",
-				"EXT_LIB_PATH=${config:path_lib}",
-				/*Config*/
-				"HSE_VALUE=${config:mcu_hse_frecuency}",
-				"FPU_HARDWARE=${config:mcu_fpu_hardware}"
 			],
 			"windows": {
 				"command": "${config:path_xpack_windows}/make.exe",
@@ -91,10 +89,6 @@
 					/*Build*/
 					"TARGET=${command:cpptools.activeConfigName}",
 					"PRJ_NAME=${config:name_project}",
-					"EXT_LIB_PATH=${config:path_lib}",
-					/*Config*/
-					"HSE_VALUE=${config:mcu_hse_frecuency}",
-					"FPU_HARDWARE=${config:mcu_fpu_hardware}",
 					/*Other*/
 					"XPACK=${config:path_xpack_windows}"
 				]
@@ -130,7 +124,8 @@
 				/*Build*/
 				"TARGET=${command:cpptools.activeConfigName}",
 				"PRJ_NAME=${config:name_project}",
-				"EXT_LIB_PATH=${config:path_lib}",
+				"EXT_LIB_PATH=${config:path_lib}/src",
+				"EXT_LIB_INCLUDE=${config:path_lib}/include",
 				/*Config*/
 				"HSE_VALUE=${config:mcu_hse_frecuency}",
 				"FPU_HARDWARE=${config:mcu_fpu_hardware}",
@@ -149,7 +144,8 @@
 					/*Build*/
 					"TARGET=${command:cpptools.activeConfigName}",
 					"PRJ_NAME=${config:name_project}",
-					"EXT_LIB_PATH=${config:path_lib}",
+					"EXT_LIB_PATH=${config:path_lib}/src",
+					"EXT_LIB_INCLUDE=${config:path_lib}/include",
 					/*Config*/
 					"HSE_VALUE=${config:mcu_hse_frecuency}",
 					"FPU_HARDWARE=${config:mcu_fpu_hardware}",
@@ -174,13 +170,13 @@
 			],
 			"presentation": {
 				"echo": false,
-				"reveal": "never",
+				"reveal": "always",
 				"focus": false,
 				"panel": "shared",
 				"showReuseMessage": false,
-				"clear": false
+				"clear": true
 			},
-			"dependsOn":["importInclude"]
+			// "dependsOn":["importInclude"]
 		},
 		{
 			"type": "shell",
@@ -193,9 +189,9 @@
 				"-File",
 				"${config:path_sdk}/utils/tools/copyIncludes.ps1",
 				"-libPath",
-				"${config:path_lib}",
+				"${config:path_lib}/src",
 				"-projectPath",
-				"${workspaceFolder}"
+				"${config:path_lib}"
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"
@@ -223,9 +219,9 @@
 				"-File",
 				"${config:path_sdk}/utils/tools/copyIncludes.ps1",
 				"-libPath",
-				"${config:path_lib}",
+				"${config:path_lib}/src",
 				"-projectPath",
-				"${workspaceFolder}",
+				"${config:path_lib}",
 				"-force",
 				"1"
 			],

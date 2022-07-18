@@ -1,6 +1,6 @@
 /**
  * @file system.h
- * @author David A. Aguirre M. (daguirre.m@outlook.com)
+ * @author David A. Aguirre M. <daguirre.m@outlook.com>
  * @brief System global includes and global macros / definitions / configs.
  * @version d0.3
  * @date 2022-05-02
@@ -30,12 +30,11 @@
 #ifndef _SYSTEM_H_
 #define _SYSTEM_H_
 
+#include "delay.h"
 
 #if defined(STM32F4xx)
 #include "stm32f4xx.h"
 #endif
-
-#include "delay.h"
 
 #define __FORCE_INLINE  __attribute__((always_inline)) static inline
 
@@ -53,10 +52,8 @@
 #define HSI_VALUE    ((uint32_t)16000000) /*!< Value of the Internal oscillator in Hz*/
 #endif /* HSI_VALUE */
 
-
 __CONSTRUCTOR
-__FORCE_INLINE
-void sys_clk_update(void)
+__FORCE_INLINE void sys_clk_update()
 {
     SystemCoreClockUpdate();
     delay_init();

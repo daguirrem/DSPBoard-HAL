@@ -23,10 +23,16 @@
 #LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 #OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #SOFTWARE.
+
+INCLUDEDEFINE =
+INCLUDE_PATH =
+LIBS =
+LIBDIR =
+LIB_SDK =
+
+include user.mk
+
 #Make
-
-include user_def.mk
-
 ifneq ($(XPACK),)
 	ECHO = "${XPACK}/echo.exe"
 	MKDIR = "${XPACK}/mkdir.exe"
@@ -72,10 +78,11 @@ INCLUDEDEFINE += \
 # Folders
 BUILD_PATH = build/$(TARGET)
 OUTPUT_PATH = output/$(TARGET)
-INCLUDE_PATH = \
+INCLUDE_PATH += \
 	./include \
 	$(CMSIS_PATH)/Include \
-	$(CMSIS_PATH)/Device/ST/STM32F4xx/Include
+	$(CMSIS_PATH)/Device/ST/STM32F4xx/Include \
+	$(EXT_LIB_INCLUDE)
 
 SOURCE_PATH = src
 EXTRA_SOURCE_PATH = libs
@@ -83,17 +90,9 @@ EXTRA_SOURCE_PATH_LIST = $(wildcard $(EXTRA_SOURCE_PATH)/*)
 
 OBJECT_PATH = build/$(TARGET)/src
 
-# Libraries
-LIBS_INCLUDE = \
-	rcc \
-	flash \
-	gpio \
-	adc \
-	delay
-
-LIBS = $(foreach lib, $(LIBS_INCLUDE),-l$(lib))
-LIBS_BUILDED = $(foreach lib, $(LIBS_INCLUDE),$(LIB_PATH)/lib$(lib).a)
-LIBS_INC_DIR = $(foreach lib, $(LIBS_INCLUDE),include/$(lib).h)
+LIBS += $(foreach lib, $(LIB_SDK),-l$(lib))
+LIBS_BUILDED = $(foreach lib, $(LIB_SDK),$(LIB_PATH)/lib$(lib).a)
+# LIBS_INC_DIR = $(foreach lib, $(LIB_SDK),include/$(lib).h)
 
 # Settings
 CPPSTANDARD = gnu++17
@@ -113,7 +112,7 @@ endif
 PREFIX = $(TOOLCHAIN)/bin/arm-none-eabi-
 CC = "$(PREFIX)gcc$(POSTFIX)"
 CXX = "$(PREFIX)g++$(POSTFIX)"
-AS = "$(PREFIX)gcc$(POSTFIX)" -x assembler-with-cpp
+AS = "$(PREFIX)gcc$(POSTFIX)"
 CP = "$(PREFIX)objcopy$(POSTFIX)"
 SZ = "$(PREFIX)size$(POSTFIX)"
 OBJDUMP = "$(PREFIX)objdump$(POSTFIX)"
@@ -152,20 +151,21 @@ CPP_SOURCE += $(wildcard $(EXTRA_SOURCE_PATH)/*/src/*.cpp)
 # Linker
 LDSCRIPT = ld/linker.ld
 LIBS += -lc -lm -lnosys
-LIBDIR = -L"$(LIB_PATH)"
+
+LIBDIR += -L"$(LIB_PATH)"
 
 LDFLAGS = $(MCU) -specs=nano.specs -specs=nosys.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS)\
 -Wl,-Map=$(BUILD_PATH)/$(PRJ_NAME).map,--cref -Wl,--gc-sections
 
 # Source flags
 ASMFLAGS = $(MCU) $(ASM_DEFINES) $(ASM_INCLUDES) $(OPT_FLAG)\
--Wall -Wextra -fdata-sections -ffunction-sections
+-x assembler-with-cpp -Wall -Wextra -fdata-sections -ffunction-sections $(DEBUG)
 
-CFLAGS = -x c $(MCU) $(CANDCPP_DEFINES) $(CANDCPP_INCLUDES) $(OPT_FLAG) -std=$(CSTANDARD)\
--Wall -Wextra -fdata-sections -ffunction-sections $(DEBUG)
+CFLAGS = $(MCU) $(CANDCPP_DEFINES) $(CANDCPP_INCLUDES) $(OPT_FLAG) -std=$(CSTANDARD)\
+-x c -Wall -Wextra -fdata-sections -ffunction-sections $(DEBUG)
 
-CPPFLAGS = -x c++ $(MCU) $(CANDCPP_DEFINES) $(CANDCPP_INCLUDES) $(OPT_FLAG) -std=$(CPPSTANDARD)\
--Wall -Wextra -fdata-sections -ffunction-sections -fno-exceptions $(DEBUG)
+CPPFLAGS = $(MCU) $(CANDCPP_DEFINES) $(CANDCPP_INCLUDES) $(OPT_FLAG) -std=$(CPPSTANDARD)\
+-x c++ -Wall -Wextra -fdata-sections -ffunction-sections -fno-exceptions $(DEBUG)
 
 # Obeject list
 OBJECTS = $(addprefix $(BUILD_PATH)/,$(notdir $(C_SOURCE:.c=.o)))
@@ -184,7 +184,7 @@ ASMOUTPUTFILE = $(OBJDUMP) -DSG -t -marm -w --start-address=$(FLASHSTART) --show
 # Build
 $(BUILD_PATH)/%.o: %.c Makefile | $(BUILD_PATH)
 	@${ECHO} -e -n "\033[0;33mCompiling \033[1;34m["$<"] \033[0m"
-	$(CC) $(CFLAGS) -MMD -MP -Wa,-a,-ad,-alms=$(BUILD_PATH)/$(notdir $(<:.c=.lst)) -c "$<" -o "$@"
+	@$(CC) $(CFLAGS) -MMD -MP -Wa,-a,-ad,-alms=$(BUILD_PATH)/$(notdir $(<:.c=.lst)) -c "$<" -o "$@"
 	@${ECHO} -e "\033[1;32m[Done]\033[0m"
 
 $(BUILD_PATH)/%.o: %.cpp Makefile | $(BUILD_PATH)
@@ -223,9 +223,10 @@ $(OUTPUT_PATH):
 	@${MKDIR} -p "$@"
 
 $(LIB_PATH)/%.a: $(LIBS_INC_DIR) Makefile | $(BUILD_PATH)
-	@${MAKE} -C '$(EXT_LIB_PATH)/$(patsubst $(LIB_PATH)/lib%.a,'%',$@)/lib' \
+	@${MAKE} -s -C '$(EXT_LIB_PATH)/$(patsubst $(LIB_PATH)/lib%.a,'%',$@)/lib' \
 	export \
 	"EXPORT_PATH=$(subst ' ','\ ',$(mkfile_dir))" \
+	"EXT_LIB_INCLUDE=$(EXT_LIB_INCLUDE)" \
 	"FPU_HARDWARE=$(FPU_HARDWARE)" \
 	"OPT_FLAG=$(OPT_FLAG)" \
 	"CORE=$(CORE)" \
@@ -237,17 +238,22 @@ $(LIB_PATH)/%.a: $(LIBS_INC_DIR) Makefile | $(BUILD_PATH)
 	"MCU=$(MCU)" \
 	"FLOATABI=$(FLOATABI)"
 
-include/%.h:
-	@${MAKE} -s -C '$(EXT_LIB_PATH)/$(patsubst include/%.h,'%',$@)/lib' \
-	incl_exp \
-	"EXPORT_PATH=$(mkfile_dir)"
+# include/%.h:
+# 	@${MAKE} -s -C '$(EXT_LIB_PATH)/$(patsubst include/%.h,'%',$@)/lib' \
+# 	incl_exp \
+# 	"EXPORT_PATH=$(mkfile_dir)"
+
+# include/%.hpp:
+# 	@${MAKE} -s -C '$(EXT_LIB_PATH)/$(patsubst include/%.hpp,'%',$@)/lib' \
+# 	incl_exp \
+# 	"EXPORT_PATH=$(mkfile_dir)"
 
 # Actions
-.PHONY: build clean program incl_imp version
+.PHONY: build clean program version #incl_imp
 
 version:
 	@${ECHO} -e "\033[1;32m[ALTELEC - HOTBET OF RESEARCH]\033[0m"
-	@${ECHO} -e "\033[1;32m[DSP Board SDK]\033[0m\r\n"
+	@${ECHO} -e "\033[1;32m[DSP Board SDK] [make]\033[0m\r\n"
 	@${ECHO} -e "\033[1;32mBuilding wtih:\033[0m"
 	@$(CC) --version
 
@@ -263,4 +269,4 @@ clean:
 program: build
 	$(PROGRAMMER_COMMAND) $(PROGRAMMER_ARGS)
 
-incl_imp: $(LIBS_INC_DIR)
+# incl_imp: $(LIBS_INC_DIR)

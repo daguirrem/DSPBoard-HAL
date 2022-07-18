@@ -1,6 +1,6 @@
 /**
  * @file system.h
- * @author David A. Aguirre M. (daguirre.m@outlook.com)
+ * @author David A. Aguirre M. <daguirre.m@outlook.com>
  * @brief System global includes and global macros / definitions / configs.
  * @version d0.3
  * @date 2022-05-02
@@ -52,7 +52,7 @@
 #define HSI_VALUE    ((uint32_t)16000000) /*!< Value of the Internal oscillator in Hz*/
 #endif /* HSI_VALUE */
 
-
+__CONSTRUCTOR
 __FORCE_INLINE void sys_clk_update()
 {
     SystemCoreClockUpdate();

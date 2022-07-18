@@ -36,12 +36,13 @@ else
 endif
 
 # Necesary options
-PRJ_NAME = delay
-LIB_NAME = delay
+PRJ_NAME = delay#ASSIGN LIB NAME
+LIB_NAME = delay#ASSIGN LIB NAME
 FPU_HARDWARE = yes
 TOOLCHAIN =
 TOOLCHAIN_VERSION =
-OPT_FLAG = 
+OPT_FLAG =
+EXT_LIB_INCLUDE =
 # MCU Defines
 CORE = cortex-m4
 INCLUDEDEFINE = \
@@ -53,6 +54,7 @@ INCLUDEDEFINE = \
 BUILD_PATH = build/$(TARGET)
 OUTPUT_PATH = output/$(TARGET)
 INCLUDE_PATH = \
+	$(EXT_LIB_INCLUDE) \
 	$(EXPORT_PATH)/include \
 	$(CMSIS_PATH)/Include \
 	$(CMSIS_PATH)/Device/ST/STM32F4xx/Include
@@ -81,7 +83,7 @@ PREFIX = $(TOOLCHAIN)/bin/arm-none-eabi-
 POSTFIX = .exe
 CC = "$(PREFIX)gcc$(POSTFIX)"
 CXX = "$(PREFIX)g++$(POSTFIX)"
-AS = "$(PREFIX)gcc$(POSTFIX)" -x assembler-with-cpp
+AS = "$(PREFIX)gcc$(POSTFIX)"
 CP = "$(PREFIX)objcopy$(POSTFIX)"
 AR = "$(PREFIX)ar$(POSTFIX)"
 OBJDUMP = "$(PREFIX)objdump$(POSTFIX)"
@@ -110,14 +112,11 @@ CPP_SOURCE = $(wildcard $(SOURCE_PATH)/*.cpp)
 
 # Source flags
 ASMFLAGS = $(MCU) $(ASM_DEFINES) $(ASM_INCLUDES) $(OPT_FLAG)\
-\
--Wall -fdata-sections -ffunction-sections -specs="nosys.specs"
+-x assembler-with-cpp -Wall -fdata-sections -ffunction-sections -specs="nosys.specs"
 CFLAGS = $(MCU) $(CANDCPP_DEFINES) $(CANDCPP_INCLUDES) $(OPT_FLAG) -std=$(CSTANDARD)\
-\
--Wall -fdata-sections -ffunction-sections $(DEBUG) -specs="nosys.specs"
+-x c -Wall -fdata-sections -ffunction-sections $(DEBUG) -specs="nosys.specs"
 CPPFLAGS = $(MCU) $(CANDCPP_DEFINES) $(CANDCPP_INCLUDES) $(OPT_FLAG) -std=$(CPPSTANDARD)\
-\
--Wall -fdata-sections -ffunction-sections -fno-exceptions $(DEBUG) -specs="nosys.specs"
+-x c++ -Wall -fdata-sections -ffunction-sections -fno-exceptions $(DEBUG) -specs="nosys.specs"
 
 # Obeject list
 OBJECTS = $(addprefix $(BUILD_PATH)/,$(notdir $(C_SOURCE:.c=.o)))
@@ -148,7 +147,7 @@ $(BUILD_PATH)/%.o: %.s Makefile | $(BUILD_PATH)
 	@${ECHO} -e "\033[1;32m[Done]\033[0m"
 
 $(OUTPUT_PATH)/lib%.a: $(OBJECTS) Makefile | $(OUTPUT_PATH)
-	@${ECHO} -e -n "\033[1;33mBuilding \033[1;34m["$@"]\033[0m"
+	@${ECHO} -e -n "\033[1;33mBuilding \033[1;34m["$@"] \033[0m"
 	@${AR} -c $(LDFLAGS) -r "$@" $(OBJECTS)
 	@${ECHO} -e "\033[1;32m[Done]\033[0m"
 

@@ -13,7 +13,8 @@
 				/*Build*/
 				"TARGET=${command:cpptools.activeConfigName}",
 				"PRJ_NAME=${config:name_project}",
-				"EXT_LIB_PATH=${config:path_lib}",
+				"EXT_LIB_PATH=${config:path_lib}/src",
+				"EXT_LIB_INCLUDE=${config:path_lib}/include",
 				/*Config*/
 				"HSE_VALUE=${config:mcu_hse_frecuency}",
 				"FPU_HARDWARE=${config:mcu_fpu_hardware}"
@@ -29,7 +30,8 @@
 					/*Build*/
 					"TARGET=${command:cpptools.activeConfigName}",
 					"PRJ_NAME=${config:name_project}",
-					"EXT_LIB_PATH=${config:path_lib}",
+					"EXT_LIB_PATH=${config:path_lib}/src",
+					"EXT_LIB_INCLUDE=${config:path_lib}/include",
 					/*Config*/
 					"HSE_VALUE=${config:mcu_hse_frecuency}",
 					"FPU_HARDWARE=${config:mcu_fpu_hardware}",
@@ -59,8 +61,9 @@
 				"focus": false,
 				"panel": "shared",
 				"showReuseMessage": false,
-				"clear": false
-			}
+				"clear": true
+			},
+			// "dependsOn":["importInclude"]
 		},
 		{
 			"type": "shell",
@@ -74,10 +77,6 @@
 				/*Build*/
 				"TARGET=${command:cpptools.activeConfigName}",
 				"PRJ_NAME=${config:name_project}",
-				"EXT_LIB_PATH=${config:path_lib}",
-				/*Config*/
-				"HSE_VALUE=${config:mcu_hse_frecuency}",
-				"FPU_HARDWARE=${config:mcu_fpu_hardware}"
 			],
 			"windows": {
 				"command": "${config:path_xpack_windows}/make.exe",
@@ -90,10 +89,6 @@
 					/*Build*/
 					"TARGET=${command:cpptools.activeConfigName}",
 					"PRJ_NAME=${config:name_project}",
-					"EXT_LIB_PATH=${config:path_lib}",
-					/*Config*/
-					"HSE_VALUE=${config:mcu_hse_frecuency}",
-					"FPU_HARDWARE=${config:mcu_fpu_hardware}",
 					/*Other*/
 					"XPACK=${config:path_xpack_windows}"
 				]
@@ -114,7 +109,7 @@
 				"focus": false,
 				"panel": "shared",
 				"showReuseMessage": false,
-				"clear": false
+				"clear": true
 			}
 		},
 		{
@@ -129,7 +124,8 @@
 				/*Build*/
 				"TARGET=${command:cpptools.activeConfigName}",
 				"PRJ_NAME=${config:name_project}",
-				"EXT_LIB_PATH=${config:path_lib}",
+				"EXT_LIB_PATH=${config:path_lib}/src",
+				"EXT_LIB_INCLUDE=${config:path_lib}/include",
 				/*Config*/
 				"HSE_VALUE=${config:mcu_hse_frecuency}",
 				"FPU_HARDWARE=${config:mcu_fpu_hardware}",
@@ -148,7 +144,8 @@
 					/*Build*/
 					"TARGET=${command:cpptools.activeConfigName}",
 					"PRJ_NAME=${config:name_project}",
-					"EXT_LIB_PATH=${config:path_lib}",
+					"EXT_LIB_PATH=${config:path_lib}/src",
+					"EXT_LIB_INCLUDE=${config:path_lib}/include",
 					/*Config*/
 					"HSE_VALUE=${config:mcu_hse_frecuency}",
 					"FPU_HARDWARE=${config:mcu_fpu_hardware}",
@@ -177,33 +174,25 @@
 				"focus": false,
 				"panel": "shared",
 				"showReuseMessage": false,
-				"clear": false
-			}
+				"clear": true
+			},
+			// "dependsOn":["importInclude"]
 		},
 		{
 			"type": "shell",
 			"label": "importInclude",
+			"command": "${config:path_powershell}",
 			"args": [
-				"incl_imp",
-				/*Build*/
-				"EXT_LIB_PATH=${config:path_lib}",
+				"-ExecutionPolicy",
+				"Unrestricted",
+				"-NoProfile",
+				"-File",
+				"${config:path_sdk}/utils/tools/copyIncludes.ps1",
+				"-libPath",
+				"${config:path_lib}/src",
+				"-projectPath",
+				"${config:path_lib}"
 			],
-			"windows": {
-				"command": "${config:path_xpack_windows}/make.exe",
-				"args": [
-					"incl_imp",
-					/*Build*/
-					"EXT_LIB_PATH=${config:path_lib}",
-					/*Other*/
-					"XPACK=${config:path_xpack_windows}"
-				]
-			},
-			"linux":{
-				"command": "make",
-			},
-			"osx":{
-				"command": "make",
-			},
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},
@@ -213,11 +202,43 @@
 			"presentation": {
 				"echo": false,
 				"reveal": "always",
-				"focus": false,
+				"focus": true,
 				"panel": "shared",
 				"showReuseMessage": false,
-				"clear": false
-			}
+				"clear": true
+			},
+		},
+		{
+			"type": "shell",
+			"label": "importIncludeForce",
+			"command": "${config:path_powershell}",
+			"args": [
+				"-ExecutionPolicy",
+				"Unrestricted",
+				"-NoProfile",
+				"-File",
+				"${config:path_sdk}/utils/tools/copyIncludes.ps1",
+				"-libPath",
+				"${config:path_lib}/src",
+				"-projectPath",
+				"${config:path_lib}",
+				"-force",
+				"1"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"presentation": {
+				"echo": false,
+				"reveal": "always",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			},
 		},
 		{
 			"type": "shell",
@@ -229,7 +250,7 @@
 					"Unrestricted",
 					"-NoProfile",
 					"-File",
-					"${config:path_sdk}/utils/size.ps1",
+					"${config:path_sdk}/utils/tools/size.ps1",
 					"${config:path_toolchain}/bin/arm-none-eabi-size.exe",
 					"${workspaceFolder}/output/${command:cpptools.activeConfigName}/${config:name_project}.elf",
 					"512", /*Flash size */
@@ -251,9 +272,9 @@
 				"echo": false,
 				"reveal": "always",
 				"focus": false,
-				"panel": "shared",
+				"panel": "dedicated",
 				"showReuseMessage": false,
-				"clear": false
+				"clear": true
 			}
 		},
 		{
@@ -296,6 +317,25 @@
 		},
 		{
 			"type": "shell",
+			"label": "hal doc",
+			"windows":{
+				"command": "& '${config:path_sdk}/lib/hal/docs/html/index.html'",
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"echo": false,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": false
+			}
+		},
+		{
+			"type": "shell",
 			"label": "serial",
 			"windows":{
 				"command": "& 'C:/Program Files/Serial Studio/bin/SerialStudio.exe'",
@@ -315,6 +355,7 @@
 				"clear": false
 			}
 		}
+
 	],
 	"inputs": [
 	]

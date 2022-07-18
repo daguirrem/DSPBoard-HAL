@@ -1,6 +1,6 @@
 /**
  * @file system.h
- * @author David A. Aguirre M. (daguirre.m@outlook.com)
+ * @author David A. Aguirre M. <daguirre.m@outlook.com>
  * @brief System global includes and global macros / definitions / configs.
  * @version d0.3
  * @date 2022-05-02

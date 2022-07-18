@@ -58,6 +58,15 @@
 			"alignment": "right"
 		},
 		{
+			"text": "$(file-pdf)",
+			"command": "workbench.action.tasks.runTask",
+			"arguments": [
+				"hal doc"
+			],
+			"tooltip": "HAL Documentation",
+			"alignment": "right"
+		},
+		{
 			"text": "$(terminal)",
 			"command": "workbench.action.tasks.runTask",
 			"arguments": [
@@ -70,7 +79,7 @@
 			"text": "$(file-symlink-file)",
 			"command": "workbench.action.tasks.runTask",
 			"arguments": [
-				"importInclude"
+				"importIncludeForce"
 			],
 			"tooltip": "Import HAL include Files",
 			"alignment": "right"

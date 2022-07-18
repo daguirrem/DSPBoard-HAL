@@ -24,10 +24,11 @@
 #OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #SOFTWARE.
 
-INCLUDEDEFINE = 
+INCLUDEDEFINE =
 INCLUDE_PATH =
 LIBS =
 LIBDIR =
+LIB_SDK =
 
 include user.mk
 
@@ -80,7 +81,8 @@ OUTPUT_PATH = output/$(TARGET)
 INCLUDE_PATH += \
 	./include \
 	$(CMSIS_PATH)/Include \
-	$(CMSIS_PATH)/Device/ST/STM32F4xx/Include
+	$(CMSIS_PATH)/Device/ST/STM32F4xx/Include \
+	$(EXT_LIB_INCLUDE)
 
 SOURCE_PATH = src
 EXTRA_SOURCE_PATH = libs
@@ -88,17 +90,9 @@ EXTRA_SOURCE_PATH_LIST = $(wildcard $(EXTRA_SOURCE_PATH)/*)
 
 OBJECT_PATH = build/$(TARGET)/src
 
-# Libraries
-LIBS_INCLUDE = \
-	rcc \
-	flash \
-	gpio \
-	adc \
-	delay
-
-LIBS += $(foreach lib, $(LIBS_INCLUDE),-l$(lib))
-LIBS_BUILDED = $(foreach lib, $(LIBS_INCLUDE),$(LIB_PATH)/lib$(lib).a)
-# LIBS_INC_DIR = $(foreach lib, $(LIBS_INCLUDE),include/$(lib).h)
+LIBS += $(foreach lib, $(LIB_SDK),-l$(lib))
+LIBS_BUILDED = $(foreach lib, $(LIB_SDK),$(LIB_PATH)/lib$(lib).a)
+# LIBS_INC_DIR = $(foreach lib, $(LIB_SDK),include/$(lib).h)
 
 # Settings
 CPPSTANDARD = gnu++17
@@ -232,6 +226,7 @@ $(LIB_PATH)/%.a: $(LIBS_INC_DIR) Makefile | $(BUILD_PATH)
 	@${MAKE} -s -C '$(EXT_LIB_PATH)/$(patsubst $(LIB_PATH)/lib%.a,'%',$@)/lib' \
 	export \
 	"EXPORT_PATH=$(subst ' ','\ ',$(mkfile_dir))" \
+	"EXT_LIB_INCLUDE=$(EXT_LIB_INCLUDE)" \
 	"FPU_HARDWARE=$(FPU_HARDWARE)" \
 	"OPT_FLAG=$(OPT_FLAG)" \
 	"CORE=$(CORE)" \

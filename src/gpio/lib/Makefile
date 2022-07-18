@@ -36,12 +36,13 @@ else
 endif
 
 # Necesary options
-PRJ_NAME = adc
-LIB_NAME = adc
+PRJ_NAME = gpio#ASSIGN LIB NAME
+LIB_NAME = gpio#ASSIGN LIB NAME
 FPU_HARDWARE = yes
 TOOLCHAIN =
 TOOLCHAIN_VERSION =
-OPT_FLAG = 
+OPT_FLAG =
+EXT_LIB_INCLUDE =
 # MCU Defines
 CORE = cortex-m4
 INCLUDEDEFINE = \
@@ -53,6 +54,7 @@ INCLUDEDEFINE = \
 BUILD_PATH = build/$(TARGET)
 OUTPUT_PATH = output/$(TARGET)
 INCLUDE_PATH = \
+	$(EXT_LIB_INCLUDE) \
 	$(EXPORT_PATH)/include \
 	$(CMSIS_PATH)/Include \
 	$(CMSIS_PATH)/Device/ST/STM32F4xx/Include

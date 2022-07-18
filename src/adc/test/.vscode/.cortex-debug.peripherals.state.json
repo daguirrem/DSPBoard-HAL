@@ -1,1 +1,1 @@
-[{"node":"ADC1","expanded":true,"format":0,"pinned":false},{"node":"ADC1.SR","expanded":true,"format":0},{"node":"ADC1.CR2","expanded":true,"format":0}]
+[{"node":"ADC1","expanded":true,"format":0,"pinned":false},{"node":"ADC1.SR","expanded":true,"format":0},{"node":"ADC1.CR2","expanded":true,"format":0},{"node":"ADC1.SQR3.SQ2","format":2},{"node":"C_ADC","expanded":true,"format":0,"pinned":false},{"node":"C_ADC.CCR","expanded":true,"format":0}]
