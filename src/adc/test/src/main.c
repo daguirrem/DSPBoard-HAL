@@ -32,41 +32,53 @@
 #include "gpio.h"
 #include "delay.h"
 
-adc_seqr_rgl_t adc_rgl;
+adc_seqr_rgl_t adc_rgl; // ADC Regular Structure for Tests
 
 int main (void)
 {
-    gpio_clk_en(GPIOA_RCC);
-    gpio_config_mode(GPIOA, GPIO_MODE_ANALOG, GPIO_IO0);
+    /* Enable GPIO on Analog mode ------------------------------------------|*/
+    gpio_clk_en(GPIOA_RCC);                                               /*|*/
+    gpio_config_mode(GPIOA, GPIO_MODE_ANALOG, GPIO_IO0);                /*<-|*/ /*[ok]*/
 
     /* ADC clock 1, 2, 3 should be enabled ---------------------------------|*/
-    adc_clk_en(ADC1_RCC | ADC2_RCC | ADC3_RCC);                         /*<-|*/ /*[]*/
+    adc_clk_en(ADC1_RCC | ADC2_RCC | ADC3_RCC);                         /*<-|*/ /*[ok]*/
     
     /* ADC clock 2 & 3 should be disabled ----------------------------------|*/
-    adc_clk_dis(ADC2_RCC | ADC3_RCC);                                   /*<-|*/ /*[]*/
+    adc_clk_dis(ADC2_RCC | ADC3_RCC);                                   /*<-|*/ /*[ok]*/
     
-    adc_common_config_pre(ADC_PRE_8);
-    adc_ind_config(ADC1, ADC_RES_12BITS, ADC_ALIGN_RIGHT);
+    /* ADC prescaler should be 8 -------------------------------------------|*/
+    adc_common_config_pre(ADC_PRE_8);                                   /*<-|*/ /*[ok]*/
 
-    adc_ind_config_seq_sgl(ADC1, 0);
-    adc_power_on(ADC1);
-    volatile uint32_t adc_read = adc_ind_read_sgl(ADC1);
+    /* ADC configure individual mode ---------------------------------------|*/
+    adc_ind_config(ADC1, ADC_RES_12BITS, ADC_ALIGN_RIGHT);              /*<-|*/ /*[ok]*/
+
+    /* ADC individual configure sequencer for single channel ---------------|*/
+    adc_ind_config_seq_sgl(ADC1, 0);                                    /*<-|*/ /*[ok]*/
+
+    /* ADC power on --------------------------------------------------------|*/
+    adc_power_on(ADC1);                                                 /*<-|*/ /*[ok]*/
+
+    /* Read single preconfigured channel on sequencer 0 --------------------|*/
+    volatile uint32_t adc_read = adc_ind_read_sgl(ADC1);                /*<-|*/ /*[ok]*/
     
+    /* Enable internal VREF channel ----------------------------------------|*/
+    adc_ich_en(ADC_INCH_TVREF);                                         /*<-|*/ /*[ok]*/
     
-    adc_rgl.lenght = 3;
-    adc_rgl.sequece[0] = 0;
-    adc_rgl.sequece[1] = 17;
-    adc_rgl.sequece[2] = 16;
-    adc_config_seq_rgl(ADC1, &adc_rgl);
-    adc_ind_mode_scan(ADC1);
-    
-    
-    adc_ich_en(ADC_INCH_TVREF);
+    /* Configure a sequencer to read 3 channels ----------------------------|*/
+    adc_rgl.lenght = 3;                             /* Channels to read ----|*/
+    adc_rgl.sequece[0] = 0;                         /* Channel 0 [GPIOA0] --|*/
+    adc_rgl.sequece[1] = 17;                        /* Voltaje reference ---|*/
+    adc_rgl.sequece[2] = 16;                        /* Voltaje temperature -|*/
+    adc_config_seq_rgl(ADC1, &adc_rgl);                                  /*-|*/
+    adc_ind_config_mode_scan(ADC1);                                     /*<-|*/ /*[ok]*/
 
     while(1)
     {
-        adc_ind_read_scan_rgl(ADC1, &adc_rgl);
-        adc_seq_get_voltages_rgl(&adc_rgl, ADC_RES_12BITS);
+        /* Excecute a read sequencered channels ----------------------------|*/
+        adc_ind_read_scan_rgl(ADC1, &adc_rgl);                          /*<-|*/ /*[ok]*/
+        /* Compute a readed channels to voltages values --------------------|*/
+        adc_seq_get_voltages_rgl(&adc_rgl, ADC_RES_12BITS);             /*<-|*/ /*[ok]*/
+        
         delay_ms(100);
     }
 }
