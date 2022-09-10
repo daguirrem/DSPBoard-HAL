@@ -302,7 +302,7 @@ __FORCE_INLINE void adc_power_down(ADC_TypeDef *adc)
   * ...
   * @endcode
   */
-__FORCE_INLINE void adc_sw_start(ADC_TypeDef *adc)
+__FORCE_INLINE void adc_start_sw(ADC_TypeDef *adc)
 {
     adc->CR2 |= ADC_CR2_SWSTART;
 }
@@ -343,7 +343,7 @@ __FORCE_INLINE void adc_common_config_pre(adc_pre_t prescaler)
  * @brief Set resolution and alignment on target ADC.
  * 
  * Configure the target ADC to individual mode and set the resolution and the 
- * alignment of the result.
+ * alignment of the result. By default, the single channel mode is enabled.
  * 
  * @param[in] adc ADC to configure.
  * @param[in] resolution ADC resolution to configure.
@@ -367,16 +367,32 @@ void adc_ind_config(
     ADC_TypeDef *adc, adc_res_t resolution, adc_align_t alignment
 );
 
-__FORCE_INLINE void adc_ind_mode_sgl(ADC_TypeDef *adc)
+/**
+ * @todo adc_ind_config_mode_sgl documentation
+ * @brief 
+ * 
+ * @param adc 
+ * @return __FORCE_INLINE 
+ */
+__FORCE_INLINE void adc_ind_config_mode_sgl(ADC_TypeDef *adc)
 {
+    adc->CR1 &= ~ADC_CR1_SCAN;
 }
 
-__FORCE_INLINE void adc_ind_mode_scan(ADC_TypeDef *adc)
+/**
+ * @todo adc_ind_config_mode_scan documentation
+ * @brief 
+ * 
+ * @param adc 
+ * @return __FORCE_INLINE 
+ */
+__FORCE_INLINE void adc_ind_config_mode_scan(ADC_TypeDef *adc)
 {
-    // TODO: Force to shutdown other modes
+    // TODO: Force to shutdown other modes?
     adc->CR1 |= ADC_CR1_SCAN;
 }
 
+/* TODO: ¿? */
 void adc_ind_mode_con();
 void adc_ind_mode_discon();
 
@@ -439,7 +455,7 @@ __FORCE_INLINE void adc_ind_config_seq_sgl(ADC_TypeDef *adc, uint8_t channel)
  */
 __FORCE_INLINE uint16_t adc_ind_read_sgl(ADC_TypeDef *adc)
 {
-    adc_sw_start(adc);
+    adc_start_sw(adc);
     while((adc->SR & ADC_SR_EOC) == 0);
     uint16_t raw = adc->DR;
     adc->SR &= ~ADC_SR_STRT;

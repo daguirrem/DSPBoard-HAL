@@ -106,7 +106,7 @@ int8_t adc_config_seq_ijt(ADC_TypeDef *adc, adc_seqr_ijt_t *sequencer)
 
 void adc_ind_read_scan_rgl(ADC_TypeDef *adc, adc_seqr_rgl_t *sequencer)
 {
-    adc_sw_start(adc);
+    adc_start_sw(adc);
     for(uint8_t i = 0; i < sequencer->lenght; i++)
     {
         while((adc->SR & ADC_SR_EOC) == 0);
@@ -117,7 +117,7 @@ void adc_ind_read_scan_rgl(ADC_TypeDef *adc, adc_seqr_rgl_t *sequencer)
 
 void adc_ind_read_scan_ijt(ADC_TypeDef *adc, adc_seqr_ijt_t *sequencer)
 {
-    adc_sw_start(adc);
+    adc_start_sw(adc);
     for(uint8_t i = 0; i < sequencer->lenght; i++)
     {
         while((adc->SR & ADC_SR_EOC) == 0);
