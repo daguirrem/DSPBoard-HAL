@@ -36,8 +36,8 @@ else
 endif
 
 # Necesary options
-PRJ_NAME = adc#ASSIGN LIB NAME
-LIB_NAME = adc#ASSIGN LIB NAME
+PRJ_NAME = #ASSIGN LIB NAME
+LIB_NAME = #ASSIGN LIB NAME
 FPU_HARDWARE = yes
 TOOLCHAIN =
 TOOLCHAIN_VERSION =
@@ -129,7 +129,7 @@ vpath %.s $(sort $(dir $(ASM_SOURCE)))
 DEPS := $(OBJECTS:.o=.d)
 -include $(DEPS)
 
-OUTPUT_FILES = $(addprefix lib,$(notdir $(OBJECTS:.o=.a)))
+OUTPUT_FILES = $(addsuffix .a, $(addprefix lib,$(LIB_NAME)))
 
 # Build
 $(BUILD_PATH)/%.o: %.c Makefile | $(BUILD_PATH)

@@ -153,13 +153,13 @@ CPP_SOURCE += $(wildcard $(EXTRA_SOURCE_PATH)/*/src/*.cpp)
 
 # Linker
 LDSCRIPT = ld/linker.ld
-LIBS += -lc -lm -larm_cortexM4lf_math
+LIBS += -lc -lm -lnosys -larm_cortexM4lf_math
 
 LIBDIR += -L"$(LIB_PATH)"
 LIBDIR += -L"$(CMSIS_PATH)/Lib/GCC"
 
-LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS)\
--Wl,-Map=$(BUILD_PATH)/$(PRJ_NAME).map,--cref -Wl,--gc-sections -Wl,--no-warn-rwx-segment
+LDFLAGS = $(MCU) -specs=nano.specs -specs=nosys.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS)\
+-Wl,-Map=$(BUILD_PATH)/$(PRJ_NAME).map,--cref -Wl,--gc-sections
 
 # Source flags
 ASMFLAGS = $(MCU) $(ASM_DEFINES) $(ASM_INCLUDES) $(OPT_FLAG)\
@@ -229,6 +229,7 @@ $(OUTPUT_PATH):
 $(LIB_PATH)/%.a: $(LIBS_INC_DIR) Makefile | $(BUILD_PATH)
 	@${MAKE} -s -C '$(EXT_LIB_PATH)/$(patsubst $(LIB_PATH)/lib%.a,'%',$@)/lib' \
 	export \
+	"LIB_NAME=$(patsubst $(LIB_PATH)/lib%.a,%,$@)" \
 	"EXPORT_PATH=$(subst ' ','\ ',$(mkfile_dir))" \
 	"EXT_LIB_INCLUDE=$(EXT_LIB_INCLUDE)" \
 	"FPU_HARDWARE=$(FPU_HARDWARE)" \
