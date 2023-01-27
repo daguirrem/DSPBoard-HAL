@@ -4,7 +4,7 @@
  * @brief Custom FLASH HAL for DSP Board SDK.
  * @version d0.1
  * @date 2022-05-02
- * 
+ *
  * @copyright MIT License, Copyright (c) 2022 David A. Aguirre M. @n @n
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- * 
+ *
  */
 
 #include "system.h"
@@ -32,7 +32,7 @@
 
 int main (void)
 {
-    flash_config_acr(
+    flash_acr_config_set(
         FLASH_CONFIG_DCACHE | FLASH_CONFIG_ICACHE | 
         FLASH_CONFIG_PREFETCH | FLASH_CONFIG_LATENCY_5WS
     );

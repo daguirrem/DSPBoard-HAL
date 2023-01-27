@@ -9,7 +9,7 @@
  *
  */
 
-#include <stm32F4xx.h>
+#include "system.h"
 #include "delay.h"
 #include "gpio.h"
 #include "rcc.h"
@@ -18,7 +18,7 @@ int main(void)
 {
     rcc_pll_param_cpte_set(100, RCC_PLLCLK_HSE);
     rcc_sysclk_select(RCC_SYSCLK_PLL | RCC_SYSCLK_HSE);
-    gpio_clock_en(GPIOA_RCC);
+    gpio_clk_en(GPIOA_RCC);
     gpio_config_mode(GPIOA, GPIO_MODE_OUTPUT, GPIO_IO6);
     gpio_config_speed(GPIOA, GPIO_SPEED_VHIGH, GPIO_IO6);
     
