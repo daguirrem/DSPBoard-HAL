@@ -37,7 +37,7 @@
  * @todo MCU Clock Output Implementation
  * @todo RTC Preescalers implementation
  * @todo RCC Interrupts
- * 
+ * @todo AHB Clock is always system clock [Divider is 1]
  */
 
 #ifndef _RCC_H_
@@ -752,6 +752,44 @@ __FORCE_INLINE void rcc_clk_dis_apb1(rcc_apb1_t mask)
 {
     RCC->APB1ENR &= ~mask;
 }
+
+/** ### rcc:clock:get:apb1
+ * @ingroup public_rcc
+ * @brief Get clock on APB1 bus.
+ * 
+ * Get a current preconfigured clock on APB1 bus. If none clock is set,
+ * the default value is a HSI clock.
+ * 
+ * E.g. @n
+ * To get the APB1 bus clock:
+ * @code
+ * ...
+ * uint32_t apb1_clk = rcc_clk_get_apb1();
+ * ...
+ * @endcode
+ * 
+ * @return Clock of APB1 bus [Hz].
+ */
+uint32_t rcc_clk_get_apb1(void);
+
+/** ### rcc:clock:get:apb2
+ * @ingroup public_rcc
+ * @brief Get clock on APB2 bus.
+ * 
+ * Get a current preconfigured clock on APB2 bus. If none clock is set,
+ * the default value is a HSI clock.
+ * 
+ * E.g. @n
+ * To get the APB2 bus clock:
+ * @code
+ * ...
+ * uint32_t apb2_clk = rcc_clk_get_apb2();
+ * ...
+ * @endcode
+ * 
+ * @return Clock of APB2 bus [Hz].
+ */
+uint32_t rcc_clk_get_apb2(void);
 
 /** ### rcc:reset:APB1
  * @ingroup public_rcc

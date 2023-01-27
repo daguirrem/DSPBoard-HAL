@@ -61,11 +61,52 @@ struct pll_s
 };
 
 /*! @ingroup rcc_private */
-//! PLL parameters configurations @see pll_s
+//! PLL parameters configurations
 /*! Internal variable that contains PLL parameters */
 static struct pll_s pll_parameters;
 
-uint32_t system_clk = HSI_VALUE;
+/**
+ * @ingroup rcc_private
+ * @brief Static struct than contains clock speeds.
+ * 
+ */
+struct clk_s
+{
+    uint32_t system; //!< System clock speed
+    uint32_t ahb; //!< AHB Bus clock speed
+    uint32_t apb1; //!< APB1 Bus clock speed
+    uint32_t apb2; //!< APB2 Bus clock speed
+};
+
+/*! 
+ * @ingroup rcc_private
+ * @brief MCU current clock speeds.
+ * Internal variable that contains current mcu clock speeds
+ * @note By default (at boot) all clocks are HSI_VALUE
+ * @see clk_s
+ */
+static struct clk_s rcc_clocks_current =
+{
+    .system = HSI_VALUE,
+    .ahb = HSI_VALUE,
+    .apb1 = HSI_VALUE,
+    .apb2 = HSI_VALUE
+};
+
+/*! 
+ * @ingroup rcc_private
+ * @brief MCU previous clock speeds.
+ * Internal variable that contains previus (at current) mcu clock speeds
+ * @note By default (at boot) all clocks are HSI_VALUE
+ * @see clk_s
+ */
+static struct clk_s rcc_clocks_previous =
+{
+    .system = HSI_VALUE,
+    .ahb = HSI_VALUE,
+    .apb1 = HSI_VALUE,
+    .apb2 = HSI_VALUE
+};
 
 void rcc_sysclk_select(rcc_sysclk_t source)
 {
@@ -81,6 +122,10 @@ void rcc_sysclk_select(rcc_sysclk_t source)
         0x110,
         0x111
     };
+
+    /* Store clocks before change */
+    rcc_clocks_previous.system = rcc_clocks_current.system;
+    rcc_clocks_previous.ahb = rcc_clocks_current.ahb;
 
     /* Separe PLL request on */
     pll_request = source & RCC_CR_PLLON;
@@ -117,6 +162,7 @@ void rcc_sysclk_select(rcc_sysclk_t source)
     }
 
     /* Determinate the target system core clock to FLASH config */
+    uint32_t system_clk;
     switch (cfgr_switch)
     {
     case 0:
@@ -143,7 +189,11 @@ void rcc_sysclk_select(rcc_sysclk_t source)
     /* Switch clock from system */
     RCC->CFGR &= ~0x3; RCC->CFGR |= cfgr_switch;
     /* Wait for the system complete the switch */
-    while ((RCC->CFGR & cfgr_ready) != cfgr_ready);
+    uint32_t tmp;
+    do {
+        tmp = (RCC->CFGR & 0xC);
+    }
+    while (tmp != cfgr_ready);
 
     if (system_clk < SystemCoreClock)
     {
@@ -154,12 +204,20 @@ void rcc_sysclk_select(rcc_sysclk_t source)
     sys_clk_update();
     /* Shutdown the other source clocks */
     RCC->CR &= ((RCC_CR_PLLON | RCC_CR_HSEON| RCC_CR_HSION) & (source | pll_request));
+
+    /* Update current clocks */
+    rcc_clocks_current.system = system_clk;
+    rcc_clocks_current.ahb = system_clk;
 }
 
 void rcc_pll_param_cpte(uint8_t pll_clk_out, rcc_pllclk_t pll_clk_in)
 {
     pll_parameters.source = pll_clk_in;
     pll_parameters.freq_o = pll_clk_out * 1000000;
+
+    /* Save previous bus speeds */
+    rcc_clocks_previous.apb1 = rcc_clocks_current.apb1;
+    rcc_clocks_previous.apb2 = rcc_clocks_current.apb2;
 
     const uint8_t pll_p[] = /* Decode table for PLL_P values */
     {
@@ -168,8 +226,8 @@ void rcc_pll_param_cpte(uint8_t pll_clk_out, rcc_pllclk_t pll_clk_in)
 
     /* 2 MHz target fvco_in (suggested by reference manual) (pag. 227) */
     /* input vco frequency [MHz] */
-    /* output vco frequency [MHz] */
     const uint32_t fvco_in = 2; 
+    /* output vco frequency [MHz] */
     uint32_t fvco_out; 
 
     /* Determinate PLL clock */
@@ -207,6 +265,10 @@ void rcc_pll_param_cpte(uint8_t pll_clk_out, rcc_pllclk_t pll_clk_in)
     /* Compute APB preescalers to get max bus speeds */
     pll_parameters.ppre1 = pll_clk_out / 42; /* 42MHz in APB1 case */
     pll_parameters.ppre2 = pll_clk_out / 84; /* 84MHz in APB2 case */
+    
+    /* Update current bus speeds */
+    rcc_clocks_current.apb1 = (uint32_t) 42000000;
+    rcc_clocks_current.apb2 = (uint32_t) 84000000;
 }
 
 void rcc_pll_param_set(void)
@@ -225,4 +287,14 @@ void rcc_pll_param_clr(void)
         | (0x1FF << RCC_PLLCFGR_PLLN_Pos) 
         | (0x3F << RCC_PLLCFGR_PLLM_Pos)
         | RCC_PLLCFGR_PLLSRC);
+}
+
+uint32_t rcc_clk_get_apb1(void)
+{
+    return rcc_clocks_current.apb1;
+}
+
+uint32_t rcc_clk_get_apb2(void)
+{
+    return rcc_clocks_current.apb2;
 }

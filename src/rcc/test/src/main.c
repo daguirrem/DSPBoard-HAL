@@ -78,6 +78,12 @@ int main (void)
     /* GPIOA & GPIOB clock should be disabled -----------------------|*/
     rcc_clk_dis_ahb1(RCC_AHB1_GPIOA | RCC_AHB1_GPIOB);           /*<-|*/        /*[ok]*/
 
+    /* APB1 Clock should be 42 MHz */
+    volatile uint32_t apb1_clk = rcc_clk_get_apb1();
+
+    /* APB2 Clock should be 84 MHz */
+    volatile uint32_t apb2_clk = rcc_clk_get_apb2();
+
     while(1)
     {
         delay_ms(1);
