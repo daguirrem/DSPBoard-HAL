@@ -36,8 +36,8 @@ else
 endif
 
 # Necesary options
-PRJ_NAME = delay#ASSIGN LIB NAME
-LIB_NAME = delay#ASSIGN LIB NAME
+PRJ_NAME = adc#ASSIGN LIB NAME
+LIB_NAME = adc#ASSIGN LIB NAME
 FPU_HARDWARE = yes
 TOOLCHAIN =
 TOOLCHAIN_VERSION =
@@ -57,7 +57,8 @@ INCLUDE_PATH = \
 	$(EXT_LIB_INCLUDE) \
 	$(EXPORT_PATH)/include \
 	$(CMSIS_PATH)/Include \
-	$(CMSIS_PATH)/Device/ST/STM32F4xx/Include
+	$(CMSIS_PATH)/DSP/Include \
+	$(CMSIS_PATH)/Device/ST/STM32F4xx/Include \
 
 SOURCE_PATH = \
 	src
@@ -132,22 +133,22 @@ OUTPUT_FILES = $(addprefix lib,$(notdir $(OBJECTS:.o=.a)))
 
 # Build
 $(BUILD_PATH)/%.o: %.c Makefile | $(BUILD_PATH)
-	@${ECHO} -e -n "\033[1;33mCompiling \033[1;34m["$<"] \033[0m"
+	@${ECHO} -e -n "\033[0;33mCompiling \033[0;34m["$<"] \033[0m"
 	@$(CC) $(CFLAGS) -MMD -MP -Wa,-a,-ad,-alms=$(BUILD_PATH)/$(notdir $(<:.c=.lst)) -c "$<" -o "$@"
 	@${ECHO} -e "\033[1;32m[Done]\033[0m"
 
 $(BUILD_PATH)/%.o: %.cpp Makefile | $(BUILD_PATH)
-	@${ECHO} -e -n "\033[1;33mCompiling \033[1;34m["$<"] \033[0m"
+	@${ECHO} -e -n "\033[0;33mCompiling \033[0;34m["$<"] \033[0m"
 	@$(CXX) $(CPPFLAGS) -MMD -MP -Wa,-a,-ad,-alms=$(BUILD_PATH)/$(notdir $(<:.cpp=.lst)) -c "$<" -o "$@"
 	@${ECHO} -e "\033[1;32m[Done]\033[0m"
 
 $(BUILD_PATH)/%.o: %.s Makefile | $(BUILD_PATH)
-	@${ECHO} -e -n "\033[1;33mCompiling \033[1;34m["$<"] \033[0m"
+	@${ECHO} -e -n "\033[0;33mCompiling \033[0;34m["$<"] \033[0m"
 	@$(AS) -c $(ASMFLAGS) "$<" -o "$@"
 	@${ECHO} -e "\033[1;32m[Done]\033[0m"
 
 $(OUTPUT_PATH)/lib%.a: $(OBJECTS) Makefile | $(OUTPUT_PATH)
-	@${ECHO} -e -n "\033[1;33mBuilding \033[1;34m["$@"] \033[0m"
+	@${ECHO} -e -n "\033[0;33mBuilding \033[0;34m["$@"] \033[0m"
 	@${AR} -c $(LDFLAGS) -r "$@" $(OBJECTS)
 	@${ECHO} -e "\033[1;32m[Done]\033[0m"
 
@@ -161,15 +162,15 @@ $(OUTPUT_PATH):
 .PHONY: build clean export incl_exp version
 
 version:
-	@${ECHO} -e "\033[0;32m[$(LIB_NAME)]\033[0m"
-	@${ECHO} -e "\033[0;32m[Generating static library] ---------------- \033[0m\r\n"
+	@${ECHO} -e "\033[1;32m[$(LIB_NAME)]\033[0m"
+	@${ECHO} -e "\033[1;32m[Generating static library] ---------------- \033[0m\r\n"
 build: version $(OUTPUT_PATH)/$(OUTPUT_FILES)
-	@${ECHO} -e -n "\033[1;33mExporting library\033[0m"
+	@${ECHO} -e -n "\033[0;33mExporting library\033[0m"
 	@${COPY} -rf ./output/. '$(EXPORT_PATH)/build/lib'
 	@${ECHO} -e "\033[1;32m [Done]\033[0m"
 
 clean:
-	@${ECHO} -e -n "\033[1;33mCleaning library dir\033[0m"
+	@${ECHO} -e -n "\033[0;33mCleaning library dir\033[0m"
 	@rm -rf ./output/
 	@rm -rf ./build/
 	@${ECHO} -e "\033[1;32m [Done]\033[0m"

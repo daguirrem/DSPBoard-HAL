@@ -72,8 +72,7 @@
 			"arguments": [
 				"serial"
 			],
-			"tooltip": "Serial",
-			"alignment": "right"
+			"tooltip": "Serial"
 		},
 		{
 			"text": "$(file-symlink-file)",

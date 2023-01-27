@@ -7,6 +7,8 @@ INCLUDE_PATH +=
 LIB_SDK += \
 	rcc \
 	gpio \
+	adc \
+	flash \
 	delay
 
 LIBS +=

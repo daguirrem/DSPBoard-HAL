@@ -1,11 +1,11 @@
 /**
  * @file system.h
- * @author David A. Aguirre M. <daguirre.m@outlook.com>
+ * @author David A. Aguirre M. (daguirre.m@outlook.com)
  * @brief System global includes and global macros / definitions / configs.
- * @version d0.3
- * @date 2022-05-02
+ * @version d0.4
+ * @date 2023-20-01
  * 
- * @copyright MIT License, Copyright (c) 2022 David A. Aguirre M. @n @n
+ * @copyright MIT License, Copyright (c) 2022-2023 David A. Aguirre M. @n @n
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,6 +35,9 @@
 #if defined(STM32F4xx)
 #include "stm32f4xx.h"
 #endif
+
+#include <stdio.h>
+#include <stdlib.h>
 
 #define __FORCE_INLINE  __attribute__((always_inline)) static inline
 

@@ -10,35 +10,33 @@
 		}
 	],
 	"settings": {
-		/* User configurations */
-		"path_sdk": "E:/David/Documents/MEGAsync/Trabajo/STM/.dspboardSDK", //!< SDK Installation path
-		"programmer": "bmp", //!< Specify the programmer, only can be 'bmp' or 'stlink'.
-		"bmp_port":  "COM1", //!< Black Magic Probe Debugger COM port. (If COM >= 10, then "\\\\.\\COMx")
-		
-		/* Internal configurations. Don't touch if you don´t know what you doing. */
-		"mcu": "stm32f407xx",
-		"mcu_hse_frecuency": "8000000UL",
-		"mcu_fpu_hardware" : "yes",
-		"compiler_option_optimization": "-O2",
-		"name_project": "${workspaceFolderBasename}",
-		"path_toolchain": "${config:path_sdk}/gcc",
-		"path_lib":"${config:path_sdk}/lib/hal",
-		"path_CMSIS": "${config:path_sdk}/packs/STM32CubeF4/Drivers/CMSIS",
-		"path_device": "${config:path_CMSIS}/Device/ST/STM32F4xx",
-		"path_xpack_windows": "${config:path_sdk}/utils/xpack/4.2.1-2/bin",
-		"path_powershell": "${config:path_sdk}/powershell/pwsh.exe",
+	/* User configurations */
+	"path_sdk": "D:/MEGAsync/STM/.dspboardSDK", //!< SDK Installation path
+	"programmer": "stlink", //!< Specify the programmer, only can be 'bmp' or 'stlink'.
+	"bmp_port":  "COM1", //!< Black Magic Probe Debugger COM port. (If COM >= 10, then "\\\\.\\COMx")
 
-		/* Cortex-Debug */
-		"debug.showInStatusBar": "never",
-		"cortex-debug.openocdPath": "${config:path_sdk}/utils/openocd/0.11.0-3/bin/openocd.exe",
-		"cortex-debug.armToolchainPath": "${config:toolchainPath}/${config:toolchainVersion}/bin",
-
-		/* Others */
-		"files.associations": {
-			"*.h": "c",
-			"*.c": "c",
-			"*.hpp": "cpp",
-			"*.cpp": "cpp"
-		},
+	/* Internal configurations. Don't touch if you don´t know what you doing. */
+	"mcu": "stm32f407xx",
+	"mcu_hse_frecuency": "8000000UL",
+	"mcu_fpu_hardware" : "yes",
+	"compiler_option_optimization": "-O2",
+	"name_project": "${workspaceFolderBasename}",
+	"path_toolchain": "${config:path_sdk}/gcc",
+	"path_lib": "${config:path_sdk}/lib/hal",
+	"path_CMSIS": "${config:path_sdk}/packs/STM32CubeF4/Drivers/CMSIS",
+	"path_device": "${config:path_CMSIS}/Device/ST/STM32F4xx",
+	"path_xpack_windows": "${config:path_sdk}/utils/xpack/bin",
+	"path_powershell": "${config:path_sdk}/powershell/pwsh.exe",
+	"debug.showInStatusBar": "never",
+	"cortex-debug.openocdPath": "${config:path_sdk}/utils/openocd/bin/openocd.exe",
+	"cortex-debug.armToolchainPath": "${config:toolchainPath}/bin",
+	"terminal.integrated.profiles.windows": {
+		"SDKPowerShell": {
+			"path": "${config:path_powershell}",
+			"icon": "terminal-powershell",
+			"overrideName": true
+		}
+	},
+	"terminal.integrated.defaultProfile.windows": "SDKPowerShell",
 	}
 }

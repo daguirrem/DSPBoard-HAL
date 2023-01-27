@@ -5,6 +5,7 @@
             "${workspaceFolder}/include",
             "${workspaceFolder}/libs/**",
             "${config:path_CMSIS}/Include",
+            "${config:path_CMSIS}/DSP/Include",
             "${config:path_device}/Include",
             "${config:path_lib}/include",
             "${config:path_toolchain}/arm-none-eabi/include",
@@ -16,7 +17,8 @@
             "STM32F407xx",
             "STM32F4xx",
             "HSE_VALUE=${config:mcu_hse_frecuency}",
-            "__VFP_FP__"
+            "__VFP_FP__",
+            "ARM_MATH_CM4"
         ],
         "defaultToolchainPath": "${config:path_toolchain}/bin/arm-none-eabi-gcc.exe"
     },

@@ -109,7 +109,7 @@
 				"focus": false,
 				"panel": "shared",
 				"showReuseMessage": false,
-				"clear": true
+				"clear": false
 			}
 		},
 		{
@@ -130,7 +130,7 @@
 				"HSE_VALUE=${config:mcu_hse_frecuency}",
 				"FPU_HARDWARE=${config:mcu_fpu_hardware}",
 				"BMP_COMMAND=${config:path_sdk}/bmp/blackmagic",
-				"ST_COMMAND=${config:path_sdk}/utils/openocd/0.11.0-3/x64/bin/openocd",
+				"ST_COMMAND=${config:path_sdk}/utils/openocd/0.11.0-3/bin/openocd",
 				"PROGRAMMER=${config:programmer}"
 			],
 			"windows": {
@@ -152,7 +152,7 @@
 					/*Other*/
 					"XPACK=${config:path_xpack_windows}",
 					"BMP_COMMAND=${config:path_sdk}/bmp/blackmagic.exe",
-					"ST_COMMAND=${config:path_sdk}/utils/openocd/0.11.0-3/x64/bin/openocd.exe",
+					"ST_COMMAND=${config:path_sdk}/utils/openocd/0.11.0-3/bin/openocd.exe",
 					"PROGRAMMER=${config:programmer}"
 				]
 			},
@@ -181,13 +181,8 @@
 		{
 			"type": "shell",
 			"label": "importInclude",
-			"command": "${config:path_powershell}",
+			"command": "${config:path_sdk}/utils/tools/copyIncludes.ps1",
 			"args": [
-				"-ExecutionPolicy",
-				"Unrestricted",
-				"-NoProfile",
-				"-File",
-				"${config:path_sdk}/utils/tools/copyIncludes.ps1",
 				"-libPath",
 				"${config:path_lib}/src",
 				"-projectPath",
@@ -211,13 +206,8 @@
 		{
 			"type": "shell",
 			"label": "importIncludeForce",
-			"command": "${config:path_powershell}",
+			"command": "${config:path_sdk}/utils/tools/copyIncludes.ps1",
 			"args": [
-				"-ExecutionPolicy",
-				"Unrestricted",
-				"-NoProfile",
-				"-File",
-				"${config:path_sdk}/utils/tools/copyIncludes.ps1",
 				"-libPath",
 				"${config:path_lib}/src",
 				"-projectPath",
@@ -243,17 +233,12 @@
 		{
 			"type": "shell",
 			"label": "size",
-			"command": "${config:path_powershell}",
+			"command": "${config:path_sdk}/utils/tools/size.ps1",
 			"windows":{
-				"args": [   
-					"-ExecutionPolicy",
-					"Unrestricted",
-					"-NoProfile",
-					"-File",
-					"${config:path_sdk}/utils/tools/size.ps1",
+				"args": [
 					"${config:path_toolchain}/bin/arm-none-eabi-size.exe",
 					"${workspaceFolder}/output/${command:cpptools.activeConfigName}/${config:name_project}.elf",
-					"512", /*Flash size */
+					"1024", /*Flash size */
 					"128", /*RAM size */
 					"64",  /*CCM size */
 					"4",   /*BKP size */
@@ -272,9 +257,9 @@
 				"echo": false,
 				"reveal": "always",
 				"focus": false,
-				"panel": "dedicated",
+				"panel": "shared",
 				"showReuseMessage": false,
-				"clear": true
+				"clear": false
 			}
 		},
 		{
@@ -338,21 +323,19 @@
 			"type": "shell",
 			"label": "serial",
 			"windows":{
-				"command": "& 'C:/Program Files/Serial Studio/bin/SerialStudio.exe'",
+				"command": "${config:path_sdk}/utils/tools/serial.ps1",
 			},
-			"args": [
-			],
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
-				"echo": false,
-				"reveal": "never",
-				"focus": false,
-				"panel": "shared",
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "dedicated",
 				"showReuseMessage": false,
-				"clear": false
+				"clear": true
 			}
 		}
 

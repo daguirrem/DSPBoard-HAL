@@ -4,7 +4,7 @@
 # Tested on Windows 10/11
 
 #MIT License
-#Copyright (c) 2020 Semyon Ivanov - 2022 David A. Aguirre M.
+#Copyright (c) 2020 Semyon Ivanov - 2022-2023 David A. Aguirre M.
 
 #Permission is hereby granted, free of charge, to any person obtaining a copy
 #of this software and associated documentation files (the "Software"), to deal
@@ -12,6 +12,7 @@
 #to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 #copies of the Software, and to permit persons to whom the Software is
 #furnished to do so, subject to the following conditions:
+
 
 #The above copyright notice and this permission notice shall be included in all
 #copies or substantial portions of the Software.
@@ -73,6 +74,7 @@ CORE = cortex-m4
 INCLUDEDEFINE += \
 	STM32F407xx \
 	STM32F4xx \
+	ARM_MATH_CM4 \
 	HSE_VALUE=$(HSE_VALUE)
 
 # Folders
@@ -82,6 +84,7 @@ INCLUDE_PATH += \
 	./include \
 	$(CMSIS_PATH)/Include \
 	$(CMSIS_PATH)/Device/ST/STM32F4xx/Include \
+	$(CMSIS_PATH)/DSP/Include \
 	$(EXT_LIB_INCLUDE)
 
 SOURCE_PATH = src
@@ -150,12 +153,13 @@ CPP_SOURCE += $(wildcard $(EXTRA_SOURCE_PATH)/*/src/*.cpp)
 
 # Linker
 LDSCRIPT = ld/linker.ld
-LIBS += -lc -lm -lnosys
+LIBS += -lc -lm -larm_cortexM4lf_math
 
 LIBDIR += -L"$(LIB_PATH)"
+LIBDIR += -L"$(CMSIS_PATH)/Lib/GCC"
 
-LDFLAGS = $(MCU) -specs=nano.specs -specs=nosys.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS)\
--Wl,-Map=$(BUILD_PATH)/$(PRJ_NAME).map,--cref -Wl,--gc-sections
+LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS)\
+-Wl,-Map=$(BUILD_PATH)/$(PRJ_NAME).map,--cref -Wl,--gc-sections -Wl,--no-warn-rwx-segment
 
 # Source flags
 ASMFLAGS = $(MCU) $(ASM_DEFINES) $(ASM_INCLUDES) $(OPT_FLAG)\
