@@ -150,6 +150,7 @@ $(BUILD_PATH)/%.o: %.s Makefile | $(BUILD_PATH)
 $(OUTPUT_PATH)/lib%.a: $(OBJECTS) Makefile | $(OUTPUT_PATH)
 	@${ECHO} -e -n "\033[0;33mBuilding \033[0;34m["$@"] \033[0m"
 	@${AR} -c $(LDFLAGS) -r "$@" $(OBJECTS)
+	@$(OBJDUMP) -h -S $@ > "$(OUTPUT_PATH)/lib${LIB_NAME}.lst"
 	@${ECHO} -e "\033[1;32m[Done]\033[0m"
 
 $(BUILD_PATH):

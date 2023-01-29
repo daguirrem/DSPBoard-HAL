@@ -130,7 +130,7 @@
 				"HSE_VALUE=${config:mcu_hse_frecuency}",
 				"FPU_HARDWARE=${config:mcu_fpu_hardware}",
 				"BMP_COMMAND=${config:path_sdk}/bmp/blackmagic",
-				"ST_COMMAND=${config:path_sdk}/utils/openocd/0.11.0-3/bin/openocd",
+				"ST_COMMAND=${config:cortex-debug.openocdPath}",
 				"PROGRAMMER=${config:programmer}"
 			],
 			"windows": {
@@ -152,7 +152,7 @@
 					/*Other*/
 					"XPACK=${config:path_xpack_windows}",
 					"BMP_COMMAND=${config:path_sdk}/bmp/blackmagic.exe",
-					"ST_COMMAND=${config:path_sdk}/utils/openocd/0.11.0-3/bin/openocd.exe",
+					"ST_COMMAND=${config:cortex-debug.openocdPath}",
 					"PROGRAMMER=${config:programmer}"
 				]
 			},
