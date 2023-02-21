@@ -54,17 +54,19 @@ extern "C" {
 
 #define dsp_filter_fir_init_static_0(n, o) \
     float n##_x[o] = {}; \
-    fir_t n = \
+    fir_t n##_var = \
     { \
         .x = &n##_x[0], .order = o \
-    }
+    }; \
+    fir_t *n = &(n##_var)
 
 #define dsp_filter_fir_init_static_1(n, o, s) \
     static s float n##_x[o] = {}; \
-    static s fir_t n = \
+    static s fir_t n##_var = \
     { \
         .x = &n##_x[0], .order = o \
-    }
+    }; \
+    static s fir_t *n = &(n##_var)
 
 #define dsp_filter_fir_declarate_chooser(x,n,o,s,f, ...) f 
 
@@ -131,17 +133,19 @@ extern "C" {
 
 #define dsp_filter_iir_init_static_0(n, o) \
     float n##_x[o] = {}; \
-    iir_t n = \
+    iir_t n##_var = \
     { \
         .x = &n##_x[0], .order = o \
-    }
+    }; \
+    iir_t* n = &(n##_var)
 
 #define dsp_filter_iir_init_static_1(n, o, s) \
     static s float n##_x[o] = {}; \
-    static s iir_t n = \
+    static s iir_t n##_var = \
     { \
         .x = &n##_x[0], .order = o \
-    }
+    }; \
+    static s iir_t* n = &(n##_var)
 
 #define dsp_filter_iir_declarate_chooser(x,n,o,s,f, ...) f 
 
@@ -375,7 +379,7 @@ void dsp_filter_fir_deinit(fir_t *filter);
   * ...
   * @endcode
   */
-int8_t dsp_filter_fir_coeff_init(fir_t *filter, filter_type_t type, float *b);
+int8_t dsp_filter_fir_coeff_init(fir_t *filter, filter_type_t type, const float *b);
 
 
 /** ### dsp:filter:fir
@@ -495,7 +499,7 @@ void dsp_filter_iir_deinit(iir_t *filter);
   * @endcode
   */
 int8_t dsp_filter_iir_coeff_init(
-    iir_t *filter, filter_type_t type, float *a, float *b
+    iir_t *filter, filter_type_t type, float *a, const float *b
 );
 
 /** ### dsp:filter:fir
