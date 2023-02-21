@@ -165,16 +165,15 @@ void rcc_sysclk_select(rcc_sysclk_t source)
     uint32_t system_clk;
     switch (cfgr_switch)
     {
-    case 0:
-        system_clk = HSI_VALUE;
-        break;
     case 1:
         system_clk = HSE_VALUE;
         break;
     case 2:
         system_clk = pll_parameters.freq_o;
         break;
+    case 0:
     default:
+        system_clk = HSI_VALUE;
         break;
     }
 
