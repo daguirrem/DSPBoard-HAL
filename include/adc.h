@@ -343,7 +343,7 @@ __FORCE_INLINE void adc_common_config_pre(adc_pre_t prescaler)
  * @brief Set resolution and alignment on target ADC.
  * 
  * Configure the target ADC to individual mode and set the resolution and the 
- * alignment of the result.
+ * alignment of the result. By default, the single channel mode is enabled.
  * 
  * @param[in] adc ADC to configure.
  * @param[in] resolution ADC resolution to configure.
@@ -367,16 +367,32 @@ void adc_ind_config(
     ADC_TypeDef *adc, adc_res_t resolution, adc_align_t alignment
 );
 
-__FORCE_INLINE void adc_ind_mode_sgl(ADC_TypeDef *adc)
+/**
+ * @todo adc_ind_config_mode_sgl documentation
+ * @brief 
+ * 
+ * @param adc 
+ * @return __FORCE_INLINE 
+ */
+__FORCE_INLINE void adc_ind_config_mode_sgl(ADC_TypeDef *adc)
 {
+    adc->CR1 &= ~ADC_CR1_SCAN;
 }
 
-__FORCE_INLINE void adc_ind_mode_scan(ADC_TypeDef *adc)
+/**
+ * @todo adc_ind_config_mode_scan documentation
+ * @brief 
+ * 
+ * @param adc 
+ * @return __FORCE_INLINE 
+ */
+__FORCE_INLINE void adc_ind_config_mode_scan(ADC_TypeDef *adc)
 {
-    // TODO: Force to shutdown other modes
+    // TODO: Force to shutdown other modes?
     adc->CR1 |= ADC_CR1_SCAN;
 }
 
+/* TODO: ¿? */
 void adc_ind_mode_con();
 void adc_ind_mode_discon();
 
