@@ -108,7 +108,9 @@ void dsp_filter_fir_deinit(fir_t *filter)
     filter = NULL;
 }
 
-int8_t dsp_filter_fir_coeff_init(fir_t *filter, filter_type_t type, float *b)
+int8_t dsp_filter_fir_coeff_init(
+    fir_t *filter, filter_type_t type, const float *b
+)
 {
     float **to_allocate;
 
@@ -369,7 +371,7 @@ void dsp_filter_iir_deinit(iir_t *filter)
 }
 
 int8_t dsp_filter_iir_coeff_init(
-    iir_t *filter, filter_type_t type, float *a, float *b
+    iir_t *filter, filter_type_t type, float *a, const float *b
 )
 {
     float **to_allocate_a;
@@ -431,8 +433,8 @@ float dsp_filter_iir(iir_t *filter, filter_type_t type, float x_in)
     /* x[0] = Last input */
     filter->x[0] = x_in;
 
-    float *a;
-    float *b;
+    const float *a;
+    const float *b;
     switch (type)
     {
     case FILTER_TYPE_LOWPASS:

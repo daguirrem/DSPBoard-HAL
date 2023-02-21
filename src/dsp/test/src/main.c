@@ -49,7 +49,7 @@ int main (void)
     dsp_filter_fir_declarate(fir_static, 10);                          /* <-| */ /*[ok]*/
     
     /* This should assign B coiefficients to Filter B Coefficient at LowPass| */
-    fir_static.b.low = &b[0];                                          /* <-| */ /*[ok]*/
+    fir_static->b.low = &b[0];                                          /* <-| */ /*[ok]*/
 
     /* CCM */
     /* This should create a variable named 'fir_ccm' with order 10 ---------| */
@@ -57,7 +57,7 @@ int main (void)
     dsp_filter_fir_declarate(fir_ccm, 10, __CCM_VAR_I);                /* <-| */ /*[ok]*/
 
     /* This should assign B coiefficients to Filter B Coefficient at LowPass| */
-    fir_ccm.b.low = &b[0];                                             /* <-| */ /*[ok]*/
+    fir_ccm->b.low = &b[0];                                             /* <-| */ /*[ok]*/
 
     /* Dynamic allocation testing */
     fir_t *fir_dynamic = dsp_filter_fir_init(10);
@@ -70,9 +70,9 @@ int main (void)
     dsp_filter_iir_declarate(iir_static, 10);                          /* <-| */ /*[ok]*/
     
     /* This should assign A coiefficients to Filter A Coefficient at LowPass| */
-    iir_static.a.low = &a[0];                                          /* <-| */ /*[ok]*/
+    iir_static->a.low = &a[0];                                          /* <-| */ /*[ok]*/
     /* This should assign B coiefficients to Filter B Coefficient at LowPass| */
-    iir_static.b.low = &b[0];                                          /* <-| */ /*[ok]*/
+    iir_static->b.low = &b[0];                                          /* <-| */ /*[ok]*/
 
     /* CCM */
     /* This should create a variable named 'fir_ccm' with order 10 ---------| */
@@ -80,19 +80,19 @@ int main (void)
     dsp_filter_iir_declarate(iir_ccm, 10, __CCM_VAR_I);                /* <-| */ /*[ok]*/
 
     /* This should assign A coiefficients to Filter A Coefficient at LowPass| */
-    iir_ccm.a.low = &a[0];                                             /* <-| */ /*[ok]*/
+    iir_ccm->a.low = &a[0];                                             /* <-| */ /*[ok]*/
     /* This should assign B coiefficients to Filter B Coefficient at LowPass| */
-    iir_ccm.b.low = &b[0];                                             /* <-| */ /*[ok]*/
+    iir_ccm->b.low = &b[0];                                             /* <-| */ /*[ok]*/
 
     iir_t *iir_dynamic = dsp_filter_iir_init(10);
     dsp_filter_iir_coeff_init(iir_dynamic, FILTER_TYPE_LOWPASS, &a[0], &b[0]);
 
-    dsp_filter_fir(&fir_static, FILTER_TYPE_LOWPASS, 1);
-    dsp_filter_fir(&fir_ccm, FILTER_TYPE_LOWPASS, 1);
+    dsp_filter_fir(fir_static, FILTER_TYPE_LOWPASS, 1);
+    dsp_filter_fir(fir_ccm, FILTER_TYPE_LOWPASS, 1);
     dsp_filter_fir(fir_dynamic, FILTER_TYPE_LOWPASS, 1);
 
-    dsp_filter_iir(&iir_static, FILTER_TYPE_LOWPASS, 1);
-    dsp_filter_iir(&iir_ccm, FILTER_TYPE_LOWPASS, 1);
+    dsp_filter_iir(iir_static, FILTER_TYPE_LOWPASS, 1);
+    dsp_filter_iir(iir_ccm, FILTER_TYPE_LOWPASS, 1);
     dsp_filter_iir(iir_dynamic, FILTER_TYPE_LOWPASS, 1);
 
     dsp_filter_fir_deinit(fir_dynamic);
