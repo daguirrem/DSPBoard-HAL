@@ -302,7 +302,7 @@ __FORCE_INLINE void adc_power_down(ADC_TypeDef *adc)
   * ...
   * @endcode
   */
-__FORCE_INLINE void adc_sw_start(ADC_TypeDef *adc)
+__FORCE_INLINE void adc_start_sw(ADC_TypeDef *adc)
 {
     adc->CR2 |= ADC_CR2_SWSTART;
 }
@@ -455,7 +455,7 @@ __FORCE_INLINE void adc_ind_config_seq_sgl(ADC_TypeDef *adc, uint8_t channel)
  */
 __FORCE_INLINE uint16_t adc_ind_read_sgl(ADC_TypeDef *adc)
 {
-    adc_sw_start(adc);
+    adc_start_sw(adc);
     while((adc->SR & ADC_SR_EOC) == 0);
     uint16_t raw = adc->DR;
     adc->SR &= ~ADC_SR_STRT;
