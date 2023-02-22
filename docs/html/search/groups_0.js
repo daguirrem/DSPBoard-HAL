@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['delay_0',['DELAY',['../d5/ddb/group__delay.html',1,'']]]
+  ['adc_0',['ADC',['../d8/d42/group__adc.html',1,'']]]
 ];

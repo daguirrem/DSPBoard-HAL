@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['flash_2ec_0',['flash.c',['../d1/d4d/flash_8c.html',1,'']]],
-  ['flash_2eh_1',['flash.h',['../de/df7/flash_8h.html',1,'']]]
+  ['delay_2ec_0',['delay.c',['../d3/d0f/delay_8c.html',1,'']]],
+  ['delay_2eh_1',['delay.h',['../dd/dee/delay_8h.html',1,'']]],
+  ['dsp_2eh_2',['dsp.h',['../d3/d08/dsp_8h.html',1,'']]]
 ];

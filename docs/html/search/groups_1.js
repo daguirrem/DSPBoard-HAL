@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['flash_0',['FLASH',['../dd/d95/group__flash.html',1,'']]]
+  ['delay_0',['DELAY',['../d5/ddb/group__delay.html',1,'']]],
+  ['dsp_1',['DSP',['../d8/d85/group__dsp.html',1,'']]]
 ];
