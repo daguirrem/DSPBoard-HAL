@@ -217,7 +217,7 @@ float dsp_filter_fir(fir_t *filter, filter_type_t type, float x_in)
      * This version is aproximated 10us @168MHz slower than optimiced version.
      */
 
-    /* La versión no optimizada hace uso de 2 "fors" independientes para el 
+    /* La versión no optimizada hace uso de 2 "for" independientes para el 
      * corrimiento y la convolución del filtro.
      * Esta versión es aproximadamente 10us más lenta que la versión optimizada.
      */

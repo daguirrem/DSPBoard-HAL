@@ -210,7 +210,9 @@ int main (void)
 
         #if DAC_R2R_EN == 0
         /* Salida del DAC interno */
-        dac_output((uint16_t) ((fir_filter->y) + 2048.0f));
+        DAC->DHR12R1 = (uint16_t) ((fir_filter->y) + 2048.0f);
+        DAC->SWTRIGR |= (1 << 0);
+
         #else
         /* Salida del DAC R2R */
         gpio_port_write(GPIOE, (uint16_t) ((fir_filter->y) + 2048.0f));

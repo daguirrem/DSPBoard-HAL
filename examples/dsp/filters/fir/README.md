@@ -45,7 +45,7 @@ Para el ejemplo se tienen las siguientes consideraciones:
 
 * Inicialización:
     <p align="center">
-        <img src="media/program_flow_init.png" width="450">
+        <img src="media/program_flow_init.png" width="225">
     </p>
 * General:
     <p align="center">
