@@ -122,8 +122,8 @@ typedef enum {
     GPIO_CONFIG_MODE_OUTPUT     = 0x101, /*!< GPIO output mode */
     GPIO_CONFIG_MODE_ALTERNATE  = 0x102, /*!< GPIO alternate mode */
     GPIO_CONFIG_MODE_ANALOG     = 0x103, /*!< GPIO analog mode */
-    GPIO_CONFIG_OUTPUT_OD       = 0x200, /*!< GPIO output open drain mode */
-    GPIO_CONFIG_OUTPUT_PP       = 0x204, /*!< GPIO output push-pull mode */
+    GPIO_CONFIG_OUTPUT_PP       = 0x200, /*!< GPIO output push-pull mode */
+    GPIO_CONFIG_OUTPUT_OD       = 0x204, /*!< GPIO output open drain mode */
     GPIO_CONFIG_PULL_NONE       = 0x400, /*!< GPIO input none pull mode */
     GPIO_CONFIG_PULL_UP         = 0x408, /*!< GPIO input pull-up mode */
     GPIO_CONFIG_PULL_DOWN       = 0x410, /*!< GPIO input pull-down mode */
