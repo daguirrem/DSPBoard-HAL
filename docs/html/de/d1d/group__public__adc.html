@@ -25,8 +25,9 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="../../frame_logo.png"/></td>
   <td id="projectalign">
-   <div id="projectname">DSP Board<span id="projectnumber">&#160;d0.5</span>
+   <div id="projectname">DSP Board<span id="projectnumber">&#160;d0.6</span>
    </div>
    <div id="projectbrief">Custom HAL for DSP Board</div>
   </td>
@@ -315,7 +316,7 @@ adc:common:configure:prescaler</h3>
 </div><div class="memdoc">
 
 <p>Preconfigure internal [injected] sequencer. </p>
-<h3><a class="anchor" id="autotoc_md16"></a>
+<h3><a class="anchor" id="autotoc_md17"></a>
 adc:configure:sequencer:injected</h3>
 <p>Configure the lenght and the channels of the sequencer to scanner adc mode.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -371,7 +372,7 @@ adc:configure:sequencer:injected</h3>
 </div><div class="memdoc">
 
 <p>Preconfigure internal [regualar] sequencer. </p>
-<h3><a class="anchor" id="autotoc_md14"></a>
+<h3><a class="anchor" id="autotoc_md16"></a>
 adc:configure:sequencer:regular</h3>
 <p>Configure the lenght and the channels of the sequencer to scanner adc mode.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -428,7 +429,7 @@ adc:configure:sequencer:regular</h3>
 </div><div class="memdoc">
 
 <p>Compute the voltage [in mV] from RAW ADC result. </p>
-<h3><a class="anchor" id="autotoc_md20"></a>
+<h3><a class="anchor" id="autotoc_md19"></a>
 adc:get:voltage</h3>
 <p>Returns the voltage [mV] of RAW ADC result based on ADC_VREF value and resolution of adc reading.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -474,7 +475,7 @@ adc_res_t Resolution type.</dd></dl>
 </div><div class="memdoc">
 
 <p>Disable internal adc channel. </p>
-<h3><a class="anchor" id="autotoc_md24"></a>
+<h3><a class="anchor" id="autotoc_md23"></a>
 adc:i[nternal]channel:disable</h3>
 <p>Disable internal VBAT and/or V_{TEMP} / V_{REFIN} ADC channels.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -513,7 +514,7 @@ adc:i[nternal]channel:disable</h3>
 </div><div class="memdoc">
 
 <p>Enable internal adc channel. </p>
-<h3><a class="anchor" id="autotoc_md22"></a>
+<h3><a class="anchor" id="autotoc_md21"></a>
 adc:i[nternal]channel:enable</h3>
 <p>Enable internal VBAT and/or V_{TEMP} / V_{REFIN} ADC channels.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -568,7 +569,7 @@ adc:i[nternal]channel:enable</h3>
 </div><div class="memdoc">
 
 <p>Set resolution and alignment on target ADC. </p>
-<h3><a class="anchor" id="autotoc_md9"></a>
+<h3><a class="anchor" id="autotoc_md10"></a>
 adc:individual:configure</h3>
 <p>Configure the target ADC to individual mode and set the resolution and the alignment of the result. By default, the single channel mode is enabled.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -621,7 +622,7 @@ adc_align_t Alignment type.</dd></dl>
 </div><div class="memdoc">
 
 <p>Configure the target ADC to read a single channel. </p>
-<h3><a class="anchor" id="autotoc_md10"></a>
+<h3><a class="anchor" id="autotoc_md13"></a>
 adc:individual:configure:sequencer:single[channel]</h3>
 <p>Configure the sequencer adc to read a single channel on target ADC.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -669,7 +670,7 @@ adc:individual:configure:sequencer:single[channel]</h3>
 </div><div class="memdoc">
 
 <p>Execute the scanner mode of target ADC to read the preconfigured channels on the sequencer. </p>
-<h3><a class="anchor" id="autotoc_md12"></a>
+<h3><a class="anchor" id="autotoc_md15"></a>
 adc:individual:read:scan:regular</h3>
 <p>Execute the reading of each preconfigured sequencer channel and save the result on respective raw indexed array of sequencer variable.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -707,7 +708,7 @@ adc:individual:read:scan:regular</h3>
 </div><div class="memdoc">
 
 <p>Read a single preconfigured channel of target ADC. </p>
-<h3><a class="anchor" id="autotoc_md11"></a>
+<h3><a class="anchor" id="autotoc_md14"></a>
 adc:individual:read:single[channel]</h3>
 <p>Start single channel reading of target ADC and bucle while until the reading its ready, then returns the result.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -890,7 +891,7 @@ For one ADC peripheral reset: </p><div class="fragment"><div class="line">...</d
 </div><div class="memdoc">
 
 <p>Compute the voltages [in mV] from RAW ADC results of [injected] sequencer. </p>
-<h3><a class="anchor" id="autotoc_md27"></a>
+<h3><a class="anchor" id="autotoc_md31"></a>
 adc:sequencer:get:voltages:regular</h3>
 <p>Compute the voltage [mV] of RAW ADC results based on ADC_VREF value and resolution of adc reading, and store them on voltage indexed array member of sequencer variable.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -982,7 +983,7 @@ adc_res_t Resolution type. </dd>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Feb 21 2023 21:37:10 for DSP Board by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
+    <li class="footer">Generated on Thu Mar 30 2023 20:16:05 for DSP Board by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
   </ul>
 </div>
 </body>

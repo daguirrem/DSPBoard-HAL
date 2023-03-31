@@ -19,10 +19,11 @@ This repository have a custom HAL libraries to DSP Board used by software develo
   This folder contains a source code of each libary:  
   * [adc](src/adc)
   * [delay](src/delay)
+  * [dsp](src/dsp)
   * [flash](src/flash)
   * [gpio](src/gpio)
   * [rcc](src/rcc)
-  * [dsp](src/dsp)  
+  * [spi](src/spi)  
   <br />
   
   Every library have a source code folder and the test folder.
@@ -49,10 +50,11 @@ Este repositorio contiene las librerías HAL para la tarjeta _DSP Board_ usadas 
   Esta carpeta contiene el codigo fuente de las siguientes librerías:  
   * [adc](src/adc)
   * [delay](src/delay)
+  * [dsp](src/dsp)
   * [flash](src/flash)
   * [gpio](src/gpio)
   * [rcc](src/rcc)
-  * [dsp](src/dsp)  
+  * [spi](src/spi)  
   <br />
   
   Cada una de las librerías contiene su carpeta de código fuente y de pruebas.

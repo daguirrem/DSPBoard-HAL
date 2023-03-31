@@ -25,8 +25,9 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="../../frame_logo.png"/></td>
   <td id="projectalign">
-   <div id="projectname">DSP Board<span id="projectnumber">&#160;d0.5</span>
+   <div id="projectname">DSP Board<span id="projectnumber">&#160;d0.6</span>
    </div>
    <div id="projectbrief">Custom HAL for DSP Board</div>
   </td>
@@ -146,8 +147,8 @@ Enumerations</h2></td></tr>
 , <a class="el" href="../../d0/d2b/group__public__gpio.html#gga9f109d20988917f140f5d55ed9a71385a99b586bdf149291f36a4152d99d7efc8">GPIO_CONFIG_MODE_ALTERNATE</a> = 0x102
 , <a class="el" href="../../d0/d2b/group__public__gpio.html#gga9f109d20988917f140f5d55ed9a71385afbc0f15b4eaf9d5aafded38440ec8489">GPIO_CONFIG_MODE_ANALOG</a> = 0x103
 , <br />
-&#160;&#160;<a class="el" href="../../d0/d2b/group__public__gpio.html#gga9f109d20988917f140f5d55ed9a71385a1f0e24cd5df4b48f4c3f405a5c450cb3">GPIO_CONFIG_OUTPUT_OD</a> = 0x200
-, <a class="el" href="../../d0/d2b/group__public__gpio.html#gga9f109d20988917f140f5d55ed9a71385ad37cd196d8c9140e8e4c8528dc3c02db">GPIO_CONFIG_OUTPUT_PP</a> = 0x204
+&#160;&#160;<a class="el" href="../../d0/d2b/group__public__gpio.html#gga9f109d20988917f140f5d55ed9a71385ad37cd196d8c9140e8e4c8528dc3c02db">GPIO_CONFIG_OUTPUT_PP</a> = 0x200
+, <a class="el" href="../../d0/d2b/group__public__gpio.html#gga9f109d20988917f140f5d55ed9a71385a1f0e24cd5df4b48f4c3f405a5c450cb3">GPIO_CONFIG_OUTPUT_OD</a> = 0x204
 , <a class="el" href="../../d0/d2b/group__public__gpio.html#gga9f109d20988917f140f5d55ed9a71385a9ddb709ff36a32ffa0c836d46a924ff9">GPIO_CONFIG_PULL_NONE</a> = 0x400
 , <a class="el" href="../../d0/d2b/group__public__gpio.html#gga9f109d20988917f140f5d55ed9a71385abc7f38776eb0886bd7f14a6299b5148d">GPIO_CONFIG_PULL_UP</a> = 0x408
 , <br />
@@ -355,9 +356,9 @@ Refer product datasheet for max frequency on speed levels pag. 117 - datasheet [
 </td></tr>
 <tr><td class="fieldname"><a id="gga9f109d20988917f140f5d55ed9a71385afbc0f15b4eaf9d5aafded38440ec8489" name="gga9f109d20988917f140f5d55ed9a71385afbc0f15b4eaf9d5aafded38440ec8489"></a>GPIO_CONFIG_MODE_ANALOG&#160;</td><td class="fielddoc"><p>GPIO analog mode </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga9f109d20988917f140f5d55ed9a71385a1f0e24cd5df4b48f4c3f405a5c450cb3" name="gga9f109d20988917f140f5d55ed9a71385a1f0e24cd5df4b48f4c3f405a5c450cb3"></a>GPIO_CONFIG_OUTPUT_OD&#160;</td><td class="fielddoc"><p>GPIO output open drain mode </p>
-</td></tr>
 <tr><td class="fieldname"><a id="gga9f109d20988917f140f5d55ed9a71385ad37cd196d8c9140e8e4c8528dc3c02db" name="gga9f109d20988917f140f5d55ed9a71385ad37cd196d8c9140e8e4c8528dc3c02db"></a>GPIO_CONFIG_OUTPUT_PP&#160;</td><td class="fielddoc"><p>GPIO output push-pull mode </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga9f109d20988917f140f5d55ed9a71385a1f0e24cd5df4b48f4c3f405a5c450cb3" name="gga9f109d20988917f140f5d55ed9a71385a1f0e24cd5df4b48f4c3f405a5c450cb3"></a>GPIO_CONFIG_OUTPUT_OD&#160;</td><td class="fielddoc"><p>GPIO output open drain mode </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga9f109d20988917f140f5d55ed9a71385a9ddb709ff36a32ffa0c836d46a924ff9" name="gga9f109d20988917f140f5d55ed9a71385a9ddb709ff36a32ffa0c836d46a924ff9"></a>GPIO_CONFIG_PULL_NONE&#160;</td><td class="fielddoc"><p>GPIO input none pull mode </p>
 </td></tr>
@@ -599,7 +600,7 @@ Refer product datasheet for max frequency on speed levels pag. 117 - datasheet [
 </div><div class="memdoc">
 
 <p>Disable single or multiple GPIO peripheral/s clock. </p>
-<h3><a class="anchor" id="autotoc_md33"></a>
+<h3><a class="anchor" id="autotoc_md30"></a>
 gpio:clock:disable:</h3>
 <p>Disable clock in RCC_AHB1 to masked GPIO/s.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -650,7 +651,7 @@ rcc_ahb1_peripheral_clk_dis Internal <a class="el" href="../../dc/dc0/group__rcc
 </div><div class="memdoc">
 
 <p>Enable single or multiple GPIO peripheral/s clock. </p>
-<h3><a class="anchor" id="autotoc_md32"></a>
+<h3><a class="anchor" id="autotoc_md28"></a>
 gpio:clock:enable:</h3>
 <p>Enable clock in RCC_AHB1 to masked GPIO/s.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -715,7 +716,7 @@ rcc_ahb1_peripheral_clk_en Internal <a class="el" href="../../dc/dc0/group__rcc.
 </div><div class="memdoc">
 
 <p>Set single or multiple configuration modes for specific IO/s on target GPIO port. </p>
-<h3><a class="anchor" id="autotoc_md34"></a>
+<h3><a class="anchor" id="autotoc_md33"></a>
 gpio:configure:all [all modes]:</h3>
 <p>Configure full operation mode of single or multiple IO/s on a target GPIO at same time.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -765,7 +766,7 @@ gpio:configure:all [all modes]:</h3>
 <div class="line">    <a class="code hl_enumvalue" href="../../d0/d2b/group__public__gpio.html#ggae39dbb6609a67893181d2184a82f4461a2cda5f217479335196dbf2331fcc7430">GPIO_IO0</a> | <a class="code hl_enumvalue" href="../../d0/d2b/group__public__gpio.html#ggae39dbb6609a67893181d2184a82f4461a1d46022129be2d555bd5ec7af11e7660">GPIO_IO1</a> | <a class="code hl_enumvalue" href="../../d0/d2b/group__public__gpio.html#ggae39dbb6609a67893181d2184a82f4461ab8ca19d0838a70ab2daa753bf47e9129">GPIO_IO2</a></div>
 <div class="line">);</div>
 <div class="line">...</div>
-<div class="ttc" id="agroup__public__gpio_html_gga9f109d20988917f140f5d55ed9a71385a1f0e24cd5df4b48f4c3f405a5c450cb3"><div class="ttname"><a href="../../d0/d2b/group__public__gpio.html#gga9f109d20988917f140f5d55ed9a71385a1f0e24cd5df4b48f4c3f405a5c450cb3">GPIO_CONFIG_OUTPUT_OD</a></div><div class="ttdeci">@ GPIO_CONFIG_OUTPUT_OD</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d7c/gpio_8h_source.html#l00125">gpio.h:125</a></div></div>
+<div class="ttc" id="agroup__public__gpio_html_gga9f109d20988917f140f5d55ed9a71385a1f0e24cd5df4b48f4c3f405a5c450cb3"><div class="ttname"><a href="../../d0/d2b/group__public__gpio.html#gga9f109d20988917f140f5d55ed9a71385a1f0e24cd5df4b48f4c3f405a5c450cb3">GPIO_CONFIG_OUTPUT_OD</a></div><div class="ttdeci">@ GPIO_CONFIG_OUTPUT_OD</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d7c/gpio_8h_source.html#l00126">gpio.h:126</a></div></div>
 <div class="ttc" id="agroup__public__gpio_html_gga9f109d20988917f140f5d55ed9a71385a3017abd16f38775342a2ed8625b64157"><div class="ttname"><a href="../../d0/d2b/group__public__gpio.html#gga9f109d20988917f140f5d55ed9a71385a3017abd16f38775342a2ed8625b64157">GPIO_CONFIG_MODE_OUTPUT</a></div><div class="ttdeci">@ GPIO_CONFIG_MODE_OUTPUT</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d7c/gpio_8h_source.html#l00122">gpio.h:122</a></div></div>
 <div class="ttc" id="agroup__public__gpio_html_gga9f109d20988917f140f5d55ed9a71385a6d516a7574b501a724062f0f9e1234be"><div class="ttname"><a href="../../d0/d2b/group__public__gpio.html#gga9f109d20988917f140f5d55ed9a71385a6d516a7574b501a724062f0f9e1234be">GPIO_CONFIG_SPEED_LOW</a></div><div class="ttdeci">@ GPIO_CONFIG_SPEED_LOW</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d7c/gpio_8h_source.html#l00130">gpio.h:130</a></div></div>
 <div class="ttc" id="agroup__public__gpio_html_ggae39dbb6609a67893181d2184a82f4461ab8ca19d0838a70ab2daa753bf47e9129"><div class="ttname"><a href="../../d0/d2b/group__public__gpio.html#ggae39dbb6609a67893181d2184a82f4461ab8ca19d0838a70ab2daa753bf47e9129">GPIO_IO2</a></div><div class="ttdeci">@ GPIO_IO2</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d7c/gpio_8h_source.html#l00086">gpio.h:86</a></div></div>
@@ -809,7 +810,7 @@ gpio:configure:all [all modes]:</h3>
 </div><div class="memdoc">
 
 <p>Set single or multiple IO/s input pull operation mode of target GPIO. </p>
-<h3><a class="anchor" id="autotoc_md38"></a>
+<h3><a class="anchor" id="autotoc_md39"></a>
 gpio:configure:input:pull:mode:</h3>
 <p>Configure only the input operation mode of single or multiple IO/s on target GPIO port at same time.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -870,7 +871,7 @@ gpio:configure:input:pull:mode:</h3>
 </div><div class="memdoc">
 
 <p>Lock the configuration IO/s on target GPIO. </p>
-<h3><a class="anchor" id="autotoc_md40"></a>
+<h3><a class="anchor" id="autotoc_md42"></a>
 gpio:config:lock</h3>
 <p>Execute a lock sequence for lock the configuration of IO/s on target GPIO.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1124,7 +1125,7 @@ gpio:configure:speed:</h3>
 </div><div class="memdoc">
 
 <p>Set to low level single or multiple outputs on target GPIO. </p>
-<h3><a class="anchor" id="autotoc_md44"></a>
+<h3><a class="anchor" id="autotoc_md46"></a>
 gpio:port:clear:</h3>
 <p>Write logical one to single or multiple masked IOs on GPIO_BSRR[31:16] target register.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1173,7 +1174,7 @@ gpio:port:clear:</h3>
 </div><div class="memdoc">
 
 <p>Read the input status of target GPIO. </p>
-<h3><a class="anchor" id="autotoc_md50"></a>
+<h3><a class="anchor" id="autotoc_md52"></a>
 gpio:port:read:input</h3>
 <p>Read target GPIO_IDR register.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1222,7 +1223,7 @@ gpio:port:read:input</h3>
 </div><div class="memdoc">
 
 <p>Read the input masked status of target GPIO. </p>
-<h3><a class="anchor" id="autotoc_md52"></a>
+<h3><a class="anchor" id="autotoc_md54"></a>
 gpio:port:read:input_masked</h3>
 <p>Read masked GPIO_IDR target register.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1268,7 +1269,7 @@ For single IO read: </p><div class="fragment"><div class="line">...</div>
 </div><div class="memdoc">
 
 <p>Read the output status of target GPIO. </p>
-<h3><a class="anchor" id="autotoc_md53"></a>
+<h3><a class="anchor" id="autotoc_md57"></a>
 gpio:port:read:output</h3>
 <p>Read target GPIO_ODR register.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1317,7 +1318,7 @@ gpio:port:read:output</h3>
 </div><div class="memdoc">
 
 <p>Read the output masked status of target GPIO. </p>
-<h3><a class="anchor" id="autotoc_md55"></a>
+<h3><a class="anchor" id="autotoc_md61"></a>
 gpio:port:read:output_masked</h3>
 <p>Read masked GPIO_ODR target register.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1373,7 +1374,7 @@ For single IO read: </p><div class="fragment"><div class="line">...</div>
 </div><div class="memdoc">
 
 <p>Set to high level single or multiple outputs on target GPIO. </p>
-<h3><a class="anchor" id="autotoc_md42"></a>
+<h3><a class="anchor" id="autotoc_md44"></a>
 gpio:port:set:</h3>
 <p>Write logical one to single or multiple masked IOs on GPIO_BSRR[15:0] target register.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1432,7 +1433,7 @@ gpio:port:set:</h3>
 </div><div class="memdoc">
 
 <p>Toggle the output mask from GPIO. </p>
-<h3><a class="anchor" id="autotoc_md46"></a>
+<h3><a class="anchor" id="autotoc_md48"></a>
 gpio:port:toggle:</h3>
 <p>Toggle the IO/s status of single or multiple masked IO/s on GPIO_ODR target register.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1491,7 +1492,7 @@ gpio:port:toggle:</h3>
 </div><div class="memdoc">
 
 <p>Write RAW data to ouput register on target GPIO. </p>
-<h3><a class="anchor" id="autotoc_md48"></a>
+<h3><a class="anchor" id="autotoc_md50"></a>
 gpio:port:write:</h3>
 <p>Write RAW data on target GPIO_ODR Register.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1530,7 +1531,7 @@ gpio:port:write:</h3>
 </div><div class="memdoc">
 
 <p>Reset single or multiple GPIO peripheral/s. </p>
-<h3><a class="anchor" id="autotoc_md31"></a>
+<h3><a class="anchor" id="autotoc_md27"></a>
 gpio:reset</h3>
 <p>Reset masked peripheral/s in RCC_AHB1RSTR, This will reset ALL registers associated with the target peripheral/s.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1567,7 +1568,7 @@ rcc_ahb1_peripheral_clk_rst Internal <a class="el" href="../../dc/dc0/group__rcc
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Feb 21 2023 21:37:10 for DSP Board by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
+    <li class="footer">Generated on Thu Mar 30 2023 20:16:05 for DSP Board by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
   </ul>
 </div>
 </body>

@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['rcc_5fclocks_5fcurrent_0',['rcc_clocks_current',['../d2/dde/group__rcc__private.html#ga94eac11f2f64ef7b1433cb8c8604782c',1,'rcc.c']]],
-  ['rcc_5fclocks_5fprevious_1',['rcc_clocks_previous',['../d2/dde/group__rcc__private.html#gadcd2d248999b881676a8e05d107de1a7',1,'rcc.c']]]
+  ['p_0',['p',['../d2/dde/group__rcc__private.html#a93c7c40d4fc2b2a4e8fea0f75e81e856',1,'pll_s']]],
+  ['pll_5fparameters_1',['pll_parameters',['../d2/dde/group__rcc__private.html#ga647afd43a0d7b58c5dc746714b552906',1,'rcc.c']]],
+  ['ppre1_2',['ppre1',['../d2/dde/group__rcc__private.html#a756ea9a4eb51c1a522a49de517427987',1,'pll_s']]],
+  ['ppre2_3',['ppre2',['../d2/dde/group__rcc__private.html#a036ebd792b21069d107199fb06ca3fb7',1,'pll_s']]]
 ];

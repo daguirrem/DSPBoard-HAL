@@ -1,9 +1,26 @@
 var searchData=
 [
-  ['uart4_5frcc_0',['UART4_RCC',['../db/de4/usart_8h.html#ad5f0447f7936348f29229cbe495a0eb7ae4f3e1ab6b630655d1a97d1d4290fdb9',1,'usart.h']]],
-  ['uart5_5frcc_1',['UART5_RCC',['../db/de4/usart_8h.html#ad5f0447f7936348f29229cbe495a0eb7a71b4f7607cc21f690b5bed7fa308d3c7',1,'usart.h']]],
-  ['usart1_5frcc_2',['USART1_RCC',['../db/de4/usart_8h.html#ad5f0447f7936348f29229cbe495a0eb7ad6fabf58495c52e96a126c59eb454a7f',1,'usart.h']]],
-  ['usart2_5frcc_3',['USART2_RCC',['../db/de4/usart_8h.html#ad5f0447f7936348f29229cbe495a0eb7a9741a7ed18f1b46eba711d43daa43844',1,'usart.h']]],
-  ['usart3_5frcc_4',['USART3_RCC',['../db/de4/usart_8h.html#ad5f0447f7936348f29229cbe495a0eb7a46c5feb091a974cca98ad2f6c76f0d4e',1,'usart.h']]],
-  ['usart6_5frcc_5',['USART6_RCC',['../db/de4/usart_8h.html#ad5f0447f7936348f29229cbe495a0eb7a09a12cfc50e8ce4e58a9ae1c01b8184f',1,'usart.h']]]
+  ['spi1_5frcc_0',['SPI1_RCC',['../d9/d69/group__public__spi.html#ggaaef6183b8c61fb67c6d46f2d84ab8ee6aceef110d957632b13a46d4cd376d3f56',1,'spi.h']]],
+  ['spi2_5frcc_1',['SPI2_RCC',['../d9/d69/group__public__spi.html#ggaaef6183b8c61fb67c6d46f2d84ab8ee6a54978f80a3e26b30cac8e6f54d56141b',1,'spi.h']]],
+  ['spi3_5frcc_2',['SPI3_RCC',['../d9/d69/group__public__spi.html#ggaaef6183b8c61fb67c6d46f2d84ab8ee6acbd4be4a3983cc14e1761b63d30652d6',1,'spi.h']]],
+  ['spi_5fclk_5fpha_5ffirst_3',['SPI_CLK_PHA_FIRST',['../d9/d69/group__public__spi.html#gga023e623fa0ef2c8dde6cb3a57716636caaf76f46ce8a7a69f1e3a252fc49e3d9a',1,'spi.h']]],
+  ['spi_5fclk_5fpha_5fsecond_4',['SPI_CLK_PHA_SECOND',['../d9/d69/group__public__spi.html#gga023e623fa0ef2c8dde6cb3a57716636ca3dbcbe8be7f0ef2fcbaf3ba8c4f0d56d',1,'spi.h']]],
+  ['spi_5fclk_5fpol_5fhigh_5',['SPI_CLK_POL_HIGH',['../d9/d69/group__public__spi.html#ggaedefc08dca4e20de96784768d1d5e126a2f73f5c17f36029f74cc61abbe8e49fb',1,'spi.h']]],
+  ['spi_5fclk_5fpol_5flow_6',['SPI_CLK_POL_LOW',['../d9/d69/group__public__spi.html#ggaedefc08dca4e20de96784768d1d5e126a91cefe774699be4c028878013475ed4e',1,'spi.h']]],
+  ['spi_5fdf_5f16bits_7',['SPI_DF_16BITS',['../d9/d69/group__public__spi.html#ggad0081d277c2f5627fd4ee5c9f523c3cea8972a1f73585e92d22e0b214415a6362',1,'spi.h']]],
+  ['spi_5fdf_5f8bits_8',['SPI_DF_8BITS',['../d9/d69/group__public__spi.html#ggad0081d277c2f5627fd4ee5c9f523c3cead62ee16c36e8833f5cbef099b4231d6e',1,'spi.h']]],
+  ['spi_5fmode_5f0_9',['SPI_MODE_0',['../d9/d69/group__public__spi.html#ggac4b206a51636d91c5cffcbcee458c3cba152359b11fb4b43ed0c5485eb0ab0673',1,'spi.h']]],
+  ['spi_5fmode_5f1_10',['SPI_MODE_1',['../d9/d69/group__public__spi.html#ggac4b206a51636d91c5cffcbcee458c3cba7c1990cc15e9d69621be8e0e757e634c',1,'spi.h']]],
+  ['spi_5fmode_5f2_11',['SPI_MODE_2',['../d9/d69/group__public__spi.html#ggac4b206a51636d91c5cffcbcee458c3cba4d350945d895a4acdc45ae96b0b82fc3',1,'spi.h']]],
+  ['spi_5fmode_5f3_12',['SPI_MODE_3',['../d9/d69/group__public__spi.html#ggac4b206a51636d91c5cffcbcee458c3cbaf06ec36087996d6f328df39866ff5de6',1,'spi.h']]],
+  ['spi_5fprescaler_5f128_13',['SPI_PRESCALER_128',['../d9/d69/group__public__spi.html#gga8278973255f4b699f144cbf07831a0dca78fbe405e0c3996c67f445abde64df9b',1,'spi.h']]],
+  ['spi_5fprescaler_5f16_14',['SPI_PRESCALER_16',['../d9/d69/group__public__spi.html#gga8278973255f4b699f144cbf07831a0dcab231bb2590fdbb093b95150e8e07c3be',1,'spi.h']]],
+  ['spi_5fprescaler_5f2_15',['SPI_PRESCALER_2',['../d9/d69/group__public__spi.html#gga8278973255f4b699f144cbf07831a0dcabd191b78475e4c18c6459e8b25e75f6f',1,'spi.h']]],
+  ['spi_5fprescaler_5f256_16',['SPI_PRESCALER_256',['../d9/d69/group__public__spi.html#gga8278973255f4b699f144cbf07831a0dcae872032e54f007220ed65f8e21a51a8f',1,'spi.h']]],
+  ['spi_5fprescaler_5f32_17',['SPI_PRESCALER_32',['../d9/d69/group__public__spi.html#gga8278973255f4b699f144cbf07831a0dcaf924fbcbe59b541360849d55a99e099c',1,'spi.h']]],
+  ['spi_5fprescaler_5f4_18',['SPI_PRESCALER_4',['../d9/d69/group__public__spi.html#gga8278973255f4b699f144cbf07831a0dca56fe4c63aa874c1306900df32ae13d07',1,'spi.h']]],
+  ['spi_5fprescaler_5f64_19',['SPI_PRESCALER_64',['../d9/d69/group__public__spi.html#gga8278973255f4b699f144cbf07831a0dcaa1b859dec27953493fa03e0a1eafbde1',1,'spi.h']]],
+  ['spi_5fprescaler_5f8_20',['SPI_PRESCALER_8',['../d9/d69/group__public__spi.html#gga8278973255f4b699f144cbf07831a0dcaf0700f17e51f63db4659b2fb8a1169c4',1,'spi.h']]],
+  ['spi_5ftf_5flsb_21',['SPI_TF_LSB',['../d9/d69/group__public__spi.html#gga4a24aad42acc247851220803a570a1b2aa10fd97fd140605507b17fec3aed57e4',1,'spi.h']]],
+  ['spi_5ftf_5fmsb_22',['SPI_TF_MSB',['../d9/d69/group__public__spi.html#gga4a24aad42acc247851220803a570a1b2acdd5d9302caa7a98d4fd91a7a16d102b',1,'spi.h']]]
 ];

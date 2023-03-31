@@ -8,5 +8,6 @@ var annotated_dup =
     [ "iir_s", "d0/d35/group__public__dsp.html#d4/de9/structiir__s", "d0/d35/group__public__dsp_d4/de9/structiir__s" ],
     [ "iir_s.a", "d0/d35/group__public__dsp.html#d2/d39/structiir__s_8a", "d0/d35/group__public__dsp_d2/d39/structiir__s_8a" ],
     [ "iir_s.b", "d0/d35/group__public__dsp.html#d1/dfa/structiir__s_8b", "d0/d35/group__public__dsp_d1/dfa/structiir__s_8b" ],
-    [ "pll_s", "d2/dde/group__rcc__private.html#da/d2b/structpll__s", "d2/dde/group__rcc__private_da/d2b/structpll__s" ]
+    [ "pll_s", "d2/dde/group__rcc__private.html#da/d2b/structpll__s", "d2/dde/group__rcc__private_da/d2b/structpll__s" ],
+    [ "spi_t", "d9/d69/group__public__spi.html#dd/d9c/structspi__t", "d9/d69/group__public__spi_dd/d9c/structspi__t" ]
 ];
