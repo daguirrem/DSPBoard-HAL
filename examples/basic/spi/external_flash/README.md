@@ -357,8 +357,8 @@ El archivo *output_signal.sr* en [media](media) se puede abrir con PulseView par
 
     Cualquier archivo fuera de la carpeta *include* y *src* no se tiene en cuenta en la compilación del SDK, por tanto, el archivo [example.c](libs/W25Qxx/example.c) no se compila, solo es un archivo de referencia.
 
-- Por algún motivo, existe un bug en el compilador con la operación de elevar (^), cuando se realiza la operación de 2^0 debería dar como resultado 1, sin embargo, el resultado es 2 y esto ocaciona una falsa bandera de error en la función *W25Qxx_ReadStatus*.
-Para solucionar este error se usa directamente la función *pow* dentro de la librería *<math.h>* y por consiguiente se realiza la siguiente modificación en la linea 743.
+- Hay un bug en la librería en la función *W25Qxx_ReadStatus*, Se usa incorrectamente el operador XOR ya que los posibles estados de la memoria son 1, 2, 4 y 8, correspondientes a *IDLE*, *BUSY*, *SUSPEND* y *BUSY AND SUSPEND* respectivamente, sin embargo el operador XOR devuelve un estado incorrecto al que realmenete reporta la memoria. Por ejemplo, La memoria en estado "IDLE" devuelve en la variable *ret* el valor de 0 y la operación 2^0 = 2 Por tanto devuelve erroneamente el estado *BUSY*.
+Para solucionar este error se puede usar la función *pow* dentro de la librería *<math.h>* o por sugerencia del autor realizar un corrimiento hacia la izquierda de la forma (1 << ret). Más información en el *issue* [Is XOR operator an error on W25Qxx_ReadStatus?](https://github.com/iammingge/Driver_W25Qxx/issues/1)
 
     Original
 
@@ -387,7 +387,7 @@ Para solucionar este error se usa directamente la función *pow* dentro de la li
         ret |= W25Qxx_RBit_BUSY();
         ret |= W25Qxx_RBit_SUS()<<1;
 
-        return (uint8_t) pow(2, ret);
+        return ((uint8_t) 1 << ret);
     }
     ```
 ## Licencia

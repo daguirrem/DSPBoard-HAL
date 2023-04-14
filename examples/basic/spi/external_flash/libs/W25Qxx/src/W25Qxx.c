@@ -23,8 +23,6 @@
  *    
 **/
 
-#include <math.h>
-
 #define W25QXX_GLOBALS
 #include "W25Qxx.h"
 
@@ -742,7 +740,7 @@ uint8_t W25Qxx_ReadStatus(void)                                                 
     ret |= W25Qxx_RBit_BUSY();
     ret |= W25Qxx_RBit_SUS()<<1;
 
-    return (uint8_t) pow(2, ret);
+    return ((uint8_t) 1 << ret);
 }
 /*---------------------------------------------------------------------------------------------------------------------*/
 /*                                The following functions include error check judgment                                 */
