@@ -33,17 +33,17 @@
 int main (void)
 {
     /* GPIO Configuration */
-    gpio_clk_en(GPIOA_RCC);
-    gpio_config_mode(GPIOA, GPIO_MODE_OUTPUT, GPIO_IO7 | GPIO_IO6);
+    gpio_clk_en(GPIOH_RCC);
+    gpio_config_mode(GPIOH, GPIO_MODE_OUTPUT, GPIO_IO10 | GPIO_IO11);
 
     /* Initial GPIO Pins states */
-    gpio_port_clr(GPIOA, GPIO_IO6);
-    gpio_port_set(GPIOA, GPIO_IO7);
+    gpio_port_clr(GPIOH, GPIO_IO10);
+    gpio_port_set(GPIOH, GPIO_IO11);
 
     while(1)
     {
-        /* Toggle GPIOA IO 6 & 7 every second */
-        gpio_port_tgl(GPIOA, GPIO_IO7 | GPIO_IO6);
+        /* Toggle GPIOH IO 10 & 11 every second */
+        gpio_port_tgl(GPIOH, GPIO_IO10 | GPIO_IO11);
         delay_ms(1000);
     }
 }
