@@ -39,8 +39,8 @@ int main (void)
 
     /* SystemCoreClock should be PLL value ----------------|*/
     /* 168 MHz                                             |*/
-    rcc_pll_param_cpte(168, RCC_PLLCLK_HSE);             /*|*/
     rcc_pll_param_clr();                                 /*|*/
+    rcc_pll_param_cpte(168, RCC_PLLCLK_HSE);             /*|*/
     rcc_pll_param_set();                                 /*|*/
     rcc_sysclk_select(RCC_SYSCLK_PLL | RCC_SYSCLK_HSE);/*<-|*/                  /*[ok]*/
 
@@ -83,6 +83,9 @@ int main (void)
 
     /* APB2 Clock should be 84 MHz */
     volatile uint32_t apb2_clk = rcc_clk_get_apb2();
+
+    rcc_pll_i2s_param_cpte_set(55.5E6, RCC_PLLCLK_HSE);
+    rcc_pll_i2s_power_on();
 
     while(1)
     {

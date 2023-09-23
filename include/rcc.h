@@ -215,6 +215,22 @@ typedef enum
 /* Functions */
 /*----------------------------------------------------------------------------*/
 
+__FORCE_INLINE void rcc_pll_power_on(void)
+{
+    /* Enable I2S PLL */
+    RCC->CR |= RCC_CR_PLLON;
+
+    /* Wait until I2S PLL clock is locked */
+    while((RCC->CR & RCC_CR_PLLRDY) == 0);
+}
+
+__FORCE_INLINE void rcc_pll_power_down(void)
+{
+    /* Disable I2S PLL */
+    RCC->CR |= RCC_CR_PLLON;
+}
+
+
 /** ### rcc:system_core_clock:select
  * @ingroup public_rcc
  * @brief Select and inicializate the system core clock.
@@ -338,9 +354,135 @@ __FORCE_INLINE void rcc_pll_param_cpte_set(uint8_t pll_clk_out,
     rcc_pllclk_t pll_clk_in
 )
 {
-    rcc_pll_param_cpte(pll_clk_out, pll_clk_in);
     rcc_pll_param_clr();
+    rcc_pll_param_cpte(pll_clk_out, pll_clk_in);
     rcc_pll_param_set();
+}
+
+/** ### rcc:pll:i2s:power:on
+ * @ingroup public_rcc
+ * @brief Power On the I2S PLL.
+ * 
+ * Enable the I2S PLL Clock.
+ *
+ * @return None.
+ */
+__FORCE_INLINE void rcc_pll_i2s_power_on(void)
+{
+    /* Enable I2S PLL */
+    RCC->CR |= RCC_CR_PLLI2SON;
+
+    /* Wait until I2S PLL clock is locked */
+    while((RCC->CR & RCC_CR_PLLI2SRDY) == 0);
+}
+
+/** ### rcc:pll:i2s:power:down
+ * @ingroup public_rcc
+ * @brief Power Down the I2S PLL.
+ * 
+ * Disable the I2S PLL Clock.
+ *
+ * @return None.
+ */
+__FORCE_INLINE void rcc_pll_i2s_power_down(void)
+{
+    /* Disable I2S PLL */
+    RCC->CR &= ~RCC_CR_PLLI2SON;
+}
+
+/** ### rcc:pll::i2s:parameter:compute
+ * @ingroup public_rcc
+ * @brief Compute PLL configuration parameters.
+ *
+ * Compute N and R PLL parameters from the desired clock for the I2S PLL and save
+ * them on static internal variable [pll_i2s_parameters].
+ *
+ * @param[in] pll_clk_out Desired PLL clock [MHz].
+ * @param[in] pll_clk_in PLL source input clock.
+ *
+ * @return None.
+ *
+ * @note If desired clock is higher than 192 MHz, the PLL will be computed for
+ *       192 MHz.
+ *
+ * E.g.
+ * @code
+ * ...
+ * // It will calculate the parameters to get 192 MHz at I2S PLL output with HSE
+ * // as input clock source to PLL
+ * rcc_pll_i2s_param_cpte(192, PLL_SRC_HSE);
+ * ...
+ * @endcode
+ */
+void rcc_pll_i2s_param_cpte(float pll_clk_out, rcc_pllclk_t pll_clk_in);
+
+/** ### rcc:pll:i2s:parameter:set
+ * @ingroup public_rcc
+ * @brief Set I2S PLL parameters stored on static internal variable 
+ *        [pll_i2s_parameters].
+ * 
+ * Set N, M and R parameters on RCC_PLLxxxCFGR Register.
+ * 
+ * @return None.
+ * 
+ * E.g.
+ * @code
+ * ...
+ * // It will set the parameters stored on internal pll_i2s_paramenters variable
+ * // to PLL
+ * rcc_pll_i2s_param_set();
+ * ...
+ * @endcode
+ */
+void rcc_pll_i2s_param_set(void);
+
+/** ### rcc:pll:i2s:parameter:clear
+ * @ingroup public_rcc
+ * @brief Clear the PLL parameters.
+ * 
+ * Clear N, M and R parameters on RCC_PLLCFGR Register.
+ *
+ * @return None.
+ * 
+ * @note If general PLL is on, the M and PLL source isn't cleared.
+ * E.g.
+ * @code
+ * ...
+ * // It will clear the parameters on PLL
+ * rcc_pll_i2s_param_clr();
+ * ...
+ * @endcode
+ */
+void rcc_pll_i2s_param_clr(void);
+
+/** ### rcc:pll:i2s:parameter:compute_and_set
+ * @ingroup public_rcc
+ * @brief Compute & set the I2S PLL Parameters.
+ * 
+ * Call rcc_pll_i2s_param_cpte, rcc_pll_i2s_param_clr 
+ * & rcc_pll_i2s_param_set functions.
+ * 
+ * @param[in] pll_clk_out Desired PLL clock [MHz].
+ * @param[in] pll_clk_in PLL source input clock.
+ * 
+ * @return None.
+ * 
+ * E.g.
+ * @code
+ * ...
+ * // It will calculate the parameters to get 192 MHz at I2S PLL output with HSE
+ * // as input clock source to PLL and then sets to I2S PLL registers
+ * rcc_pll_i2s_param_cpte_set(192, PLL_SRC_HSE);
+ * ...
+ * @endcode
+ */
+__FORCE_INLINE void rcc_pll_i2s_param_cpte_set(float pll_clk_out, 
+    rcc_pllclk_t pll_clk_in
+)
+{
+    rcc_pll_i2s_param_clr();
+    rcc_pll_i2s_param_cpte(pll_clk_out, pll_clk_in);
+    rcc_pll_i2s_param_set();
 }
 
 /** ### rcc:clock:enable:AHB1

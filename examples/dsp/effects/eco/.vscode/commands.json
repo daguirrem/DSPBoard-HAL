@@ -1,0 +1,87 @@
+{
+	"commands": [
+		{
+			"text": "$(tools)",
+			"command": "workbench.action.tasks.runTask",
+			"arguments": [
+				"size"
+			],
+			"tooltip": "Build project"
+		},
+		{
+			"text": "$(trashcan)",
+			"command": "workbench.action.tasks.runTask",
+			"arguments": [
+				"clean"
+			],
+			"tooltip": "Clean project"
+		},
+		{
+			"text": " $(rocket)",
+			"command": "workbench.action.tasks.runTask",
+			"arguments": [
+				"program"
+			],
+			"tooltip": "Program"
+		},
+		{
+			"text": "$(bug)",
+			"command": "workbench.action.debug.start",
+			"tooltip": "Start debugging"
+		},
+		{
+			"text": "$(symbol-struct)",
+			"command": "cortex-debug.viewDisassembly",
+			"tooltip": "View Disassembly"
+		},
+		{
+			"text": "$(symbol-keyword)",
+			"command": "cortex-debug.examineMemory",
+			"tooltip": "Examine Memory"
+		},
+		{
+			"text": "$(file-pdf)",
+			"command": "workbench.action.tasks.runTask",
+			"arguments": [
+				"datasheet"
+			],
+			"tooltip": "Datasheet",
+			"alignment": "right"
+		},
+		{
+			"text": "$(file-pdf)",
+			"command": "workbench.action.tasks.runTask",
+			"arguments": [
+				"reference manual"
+			],
+			"tooltip": "Reference Manual",
+			"alignment": "right"
+		},
+		{
+			"text": "$(file-pdf)",
+			"command": "workbench.action.tasks.runTask",
+			"arguments": [
+				"hal doc"
+			],
+			"tooltip": "HAL Documentation",
+			"alignment": "right"
+		},
+		{
+			"text": "$(terminal)",
+			"command": "workbench.action.tasks.runTask",
+			"arguments": [
+				"serial"
+			],
+			"tooltip": "Serial"
+		},
+		{
+			"text": "$(file-symlink-file)",
+			"command": "workbench.action.tasks.runTask",
+			"arguments": [
+				"importIncludeForce"
+			],
+			"tooltip": "Import HAL include Files",
+			"alignment": "right"
+		}
+	]
+}

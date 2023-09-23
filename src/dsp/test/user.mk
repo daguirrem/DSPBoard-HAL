@@ -11,7 +11,8 @@ LIB_SDK += \
 	adc \
 	flash \
 	delay \
-	dsp
+	dsp \
+	utils
 
 LIBS +=
 

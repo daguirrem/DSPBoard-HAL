@@ -1,9 +1,9 @@
 /**
  * @file dsp.h
  * @author David A. Aguirre M. <daguirre.m@outlook.com>
- * @brief 
- * @version d0.1
- * @date 2023-01-27
+ * @brief DSP header lib for custom DSP Board SDK.
+ * @version d0.2
+ * @date 2023-07-04
  * 
  * @copyright MIT License, Copyright (c) 2023 David A. Aguirre M. @n @n
  *
@@ -36,6 +36,9 @@ extern "C" {
 
 #include "system.h"
 #include <stdint.h>
+#include <stdbool.h>
+
+#include "utils.h"
 
 /**
  * @addtogroup dsp DSP
@@ -46,6 +49,11 @@ extern "C" {
  * @ingroup dsp
  */
 
+#ifndef DSP_EFFECT_DELAY_SIZE
+#define DSP_EFFECT_DELAY_SIZE 1 /*<! Default dsp delay effect depth */
+#define DSP_EFFECT_DELAY_WARN 1 /*<! Flag to display warning on compile time */
+#endif
+
 
 /*----------------------------------------------------------------------------*/
 /* Macros */
@@ -53,7 +61,7 @@ extern "C" {
 
 
 #define dsp_filter_fir_init_static_0(n, o) \
-    float n##_x[o] = {}; \
+    float n##_x[o + 1] = {}; \
     fir_t n##_var = \
     { \
         .x = &n##_x[0], .order = o \
@@ -61,7 +69,7 @@ extern "C" {
     fir_t *n = &(n##_var)
 
 #define dsp_filter_fir_init_static_1(n, o, s) \
-    static s float n##_x[o] = {}; \
+    static s float n##_x[o + 1] = {}; \
     static s fir_t n##_var = \
     { \
         .x = &n##_x[0], .order = o \
@@ -132,18 +140,20 @@ extern "C" {
     ) 
 
 #define dsp_filter_iir_init_static_0(n, o) \
-    float n##_x[o] = {}; \
+    float n##_x[o + 1] = {}; \
+    float n##_y[o + 1] = {}; \
     iir_t n##_var = \
     { \
-        .x = &n##_x[0], .order = o \
+        .x = &n##_x[0], .y = &n##_y[0], .order = o \
     }; \
     iir_t* n = &(n##_var)
 
 #define dsp_filter_iir_init_static_1(n, o, s) \
-    static s float n##_x[o] = {}; \
+    static s float n##_x[o + 1] = {}; \
+    static s float n##_y[o + 1] = {}; \
     static s iir_t n##_var = \
     { \
-        .x = &n##_x[0], .order = o \
+        .x = &n##_x[0], .y = &n##_y[0], .order = o \
     }; \
     static s iir_t* n = &(n##_var)
 
@@ -260,7 +270,7 @@ typedef struct fir_s
 
 /**
  * @ingroup public_dsp
- * @brief FIR struct.
+ * @brief IIR struct.
  * 
  * Struct to handle IIR data type.
  * 
@@ -285,6 +295,47 @@ typedef struct iir_s
         const float *stop; /*!< For BandStop filter */
     } b; /*!< B Coefficients (Denominator) */
 } iir_t;
+
+/**
+ * @ingroup public_dsp
+ * @brief ECO struct.
+ * 
+ * Struct to handle ECO data type.
+ * 
+ */
+typedef struct eco_s
+{
+    circular_buffer_t *buffer; /*!< Internal circular buffer */
+    circular_buffer_err_t err; /*!< Error status to cirular buffer opeartions */
+    uint32_t sample_rate; /*!< Sample rate to compute eco buffer length */
+    size_t _c; /*!< Internal counter */
+
+    float wet; /*!< Wet gain (from 0 to 1) */
+    float dry; /*!< Dry gain (from 0 to 1) */
+    float feedback; /*!< Feedback gain (from 0 to 1) */
+    float delay; /*!< Current eco delay (s) [> 0 && <= mdelay] */
+    float mdelay; /*!< Max delay (s) (configured on dsp_effect_eco_init) */
+    float x; /* Computed x to eco */
+} dsp_eco_t;
+
+/**
+ * @ingroup public_dsp
+ * @brief DSP_DELAY struct.
+ * 
+ * Struct to handle DSP delay data type.
+ * 
+ */
+typedef struct dsp_delay_s
+{
+    circular_buffer_t *buffer[DSP_EFFECT_DELAY_SIZE] /*!< Internal circular buffer/s */;
+    circular_buffer_err_t err; /*!< Error status to cirular buffer opeartions */
+    uint32_t sample_rate; /*!< Sample rate to compute delay buffer/s length/s */
+    size_t _c[DSP_EFFECT_DELAY_SIZE]; /*!< Internal counter */
+
+    float delay[DSP_EFFECT_DELAY_SIZE]; /*!< Current delay/s (s) [> 0 && <= mdelay] */
+    float mdelay[DSP_EFFECT_DELAY_SIZE]; /*!< Max delay/s (s) (configured on dsp_effect_eco_init) */
+    float gain[DSP_EFFECT_DELAY_SIZE]; /* Gain of delay/s*/
+} dsp_delay_t;
 
 /*----------------------------------------------------------------------------*/
 /* Variables */
@@ -535,8 +586,405 @@ int8_t dsp_filter_iir_coeff_init(
   */
 float dsp_filter_iir(iir_t *filter, filter_type_t type, float x_in);
 
+/*----------------------------------------------------------------------------*/
+/** ### dsp:effect:delay:init
+  * @ingroup public_dsp
+  * @brief Inicializate dsp_delay_t variable type to apply dsp delay effect.
+  * 
+  * Allocates a single buffer or array of buffers from /delay with length
+  * computed from /delay array and /sample_rate.
+  * 
+  * The size of memory allocated is:
+  *     dsp_delay_t type:       37 [bytes] +
+  *     circular_buffer_t:      16 [bytes] +
+  *     buffer[/delay * /sample_rate]: (/delay * /sample_rate) * 4 [bytes]
+  * 
+  * @param[in] delay array of max delays to inicializate.
+  * @param[in] gain array of max delays to inicializate.
+  * @param[in] sample_rate sample rate of delay effect.
+  * 
+  * @return dsp_delay_t allocated.
+  * @retval NULL if allocation failed.
+  * @retval Otherwise the address of dsp_delay_t allocated.
+  * 
+  * @note You must allocate enough heap memory at linker file (linker.ld)
+  * 
+  * @see dsp_delay_t delay datatype.
+  * 
+  * E.g. @n
+  * This init dsp_delay_t of 3 depth levels. 
+  * (DSP_EFFECT_DELAY_SIZE=3 defined on user.mk)
+  * @code
+  * ...
+  * #include "dsp.h"
+  * 
+  * // dsp_delay_t to be allocated
+  * dsp_delay_t *dsp_delay;
+  * 
+  * void main(void)
+  * {
+  *     ...
+  *     // Declare gains of each delay
+  *     float gains[DSP_EFFECT_DELAY_SIZE] = {0.8f, 0.65f, 0.1f};
+  *     
+  *     // Declare max delays of each level (on seconds)
+  *     float delays[DSP_EFFECT_DELAY_SIZE] = {0.05f, 0.085f, 0.1f};
+  *     
+  *     // Init the delay effect variable with sample rate at 44100 Hz
+  *     dsp_delay = dsp_effect_delay_init(delays, gains, 44100);
+  *     
+  *     // Test if delay is succesfull allocated
+  *     if (dsp_delay == NULL)
+  *         while(1) {//DO SOMETHING TO NOTIFY AN ERROR OR LOOP THE PROGRAM}
+  *     
+  *     // Everithing is ok.
+  *     ...
+  *     while(1)
+  *     {
+  *         ...
+  *     }
+  * }
+  * ...
+  * @endcode
+  */
+dsp_delay_t *dsp_effect_delay_init(
+    float delay[DSP_EFFECT_DELAY_SIZE], float gain[DSP_EFFECT_DELAY_SIZE], uint32_t sample_rate);
+
+/** ### dsp:effect:delay:deinit
+  * @ingroup public_dsp
+  * @brief Deallocates dsp_delay_t variable.
+  * 
+  * Deallocate all resource from dsp_delay_t variable.
+  * 
+  * @param[in] delay Pointer to dsp_delay_t to deallocate.
+  * 
+  * @return None
+  * 
+  * @see dsp_delay_t delay_ptr datatype.
+  * 
+  * E.g. @n
+  * This deallocates dsp_delay variable.
+  * @code
+  * ...
+  * int main(void)
+  * {
+  *     dsp_delay_t *dsp_delay;
+  *     ...
+  *     // Code to init dsp_delay
+  *     ...
+  *     dsp_effect_delay_deinit(dsp_delay);
+  *     while(1)
+  *     {
+  *     }
+  * }
+  * ...
+  * @endcode
+  */
+void dsp_effect_delay_deinit(dsp_delay_t *delay);
+
+/** ### dsp:effect:delay
+  * @ingroup public_dsp
+  * @brief Execute a delay effect with current /delay preallocated variable.
+  * 
+  * Compute and return a delayed /x from /x input with /delay preallocated
+  * configs.
+  * 
+  * Eq.
+  *   y = 0;
+  *   for (i = 0; i < DSP_EFFECT_DELAY_SIZE; i++)
+  *     y += x_delayed[i] * gain[i];
+  *
+  *   where:
+  *     x_delayed is a x readed from circular_buffers array [/x delayed /eco->delay seconds].
+  *     /x is saved on circular_buffer.
+  * 
+  * 
+  * @param[in] delay dsp_delay_t configs to apply delay effect.
+  * @param[in] x Input to compute delay effect.
+  * 
+  * @return Computed delayed /x.
+  * 
+  * @note Based on "Implementation of sound effects in DSP". Alfredo Ricci Vásquez - Juan Carlos Bucheli García
+  * 
+  * @see dsp_delay_t delay datatype.
+  * 
+  * E.g. @n
+  * 
+  * @code
+  * ...
+  * #include "dsp.h"
+  * 
+  * int main(void)
+  * {
+  *     dsp_delay_t *dsp_delay;
+  *     float gains[DSP_EFFECT_DELAY_SIZE] = {...}, delays[DSP_EFFECT_DELAY_SIZE] = {...};
+  *     
+  *     dsp_delay = dsp_effect_delay_init(delays, gains, 44100);
+  *     
+  *     if (dsp_delay == NULL)
+  *         while(1) {}
+  *     
+  *     while(1)
+  *     {
+  *         ...
+  *         // bucle run at 44.1 kHz.
+  *         float x = adc; // Some discrete value.
+  *         dsp_effect_delay(dsp_delay, x);
+  *         ...
+  *     }
+  * }
+  * ...
+  * @endcode
+  */
+float dsp_effect_delay(dsp_delay_t *delay, float x);
+
+/** ### dsp:effect:eco:update
+  * @ingroup public_dsp
+  * @brief Update current delay/s from delay effect.
+  * 
+  * Update /delay->delay value (> 0 && <= /delay->mdelay)
+  * 
+  * @param[in] delay dsp_delay_t to update.
+  * @param[in] delays target array of delays to update.
+  * 
+  * @return None
+  * 
+  * @see dsp_delay_t
+  * 
+  * E.g. @n
+  * This modify current delay to 50 ms from 85 ms at i = 10,
+  * and finally to 75 from 85 ms at i = 20 only on second delay depth level.
+  * @code
+  * ...
+  * #include "dsp.h"
+  * 
+  * int main(void)
+  * {
+  *     float gains[DSP_EFFECT_DELAY_SIZE] = {0.8f, 0.65f, 0.1f};
+  *     float delays[DSP_EFFECT_DELAY_SIZE] = {0.03f, 0.085f, 0.1f};
+  *     
+  *     dsp_delay = dsp_effect_delay_init(delays, gains, 44100);
+  *     
+  *     // Test if delay is succesfull allocated
+  *     if (dsp_delay == NULL)
+  *         while(1) {}
+  *     
+  *     uint8_t i = 0;
+  *     while(1)
+  *     {
+  *         ..
+  *         // bucle run at 44.1 kHz.
+  *         float x = adc; // Some discrete value.
+  *         dsp_effect_delay(dsp_delay, x);
+  *         
+  *         i += 1;
+  *         if(i == 10)
+  *         {
+  *             delays[1] = 0.05f;
+  *             dsp_effect_delay_update(dsp_delay, &delays);
+  *         }
+  *         else if (i == 20)
+  *         {
+  *             delays[1] = 0.075f;
+  *             dsp_effect_delay_update(dsp_delay, &delays);
+  *         }
+  *         ...
+  *     }
+  * }
+  * ...
+  * @endcode
+  */
+void dsp_effect_delay_update(dsp_delay_t *delay, float *delays);
+
+/** ### dsp:effect:eco:init
+  * @ingroup public_dsp
+  * @brief Inicializate dsp_eco_t variable type to apply dsp eco effect.
+  * 
+  * Allocates a single buffer with length computed from /delay and 
+  * /sample_rate, also inicializate wet, dry and feedback parameters from
+  * /eco with 0.5, 0.5 and 0.4 values respectively.
+  * 
+  * @param[in] delay dsp_delay_t to inicializate.
+  * @param[in] max_delay array of max delays to inicializate.
+  * @param[in] sample_rate sample rate of delay effect.
+  * 
+  * @return None
+  * 
+  * @note 1. /eco->[wet,dry,feedback,delay] can be modify externally.
+  * @note 2. You must allocate enough heap memory at linker file (linker.ld)
+  * 
+  * @see dsp_eco_t eco datatype.
+  * 
+  * E.g. @n
+  * This allocates dsp_eco_t variable with max delay of 250 ms and wet of 0.4,
+  * dry = 0.4 and feedback = 0.6.
+  * @code
+  * ...
+  * #include "dsp.h"
+  * 
+  * dsp_eco_t *dsp_eco;
+  * int main(void)
+  * {
+  *     ...
+  *     dsp_eco = dsp_effect_eco_init(0.25, 44100);
+  *     
+  *     // Test if eco is succesfull allocated
+  *     if (dsp_eco == NULL)
+  *         while(1) {//DO SOMETHING TO NOTIFY AN ERROR OR LOOP THE PROGRAM}
+  * 
+  *     // Modify default eco parameters.
+  *     dsp_eco->wet = 0.4f;
+  *     dsp_eco->dry = 0.4f;
+  *     dsp_eco->feedback = 0.6;
+  *     ...
+  *     while(1)
+  *     {
+  *     }
+  * }
+  * ...
+  * @endcode
+  */
+dsp_eco_t *dsp_effect_eco_init(float max_delay, uint32_t sample_rate);
+
+/** ### dsp:effect:eco:deinit
+  * @ingroup public_dsp
+  * @brief Deallocates dsp_eco_t variable.
+  * 
+  * Deallocate all resource from dsp_eco_t variable.
+  * 
+  * @param[in] eco Pointer to dsp_eco_t to deallocate.
+  * 
+  * @return None
+  * 
+  * @see dsp_eco_t eco_ptr datatype.
+  * 
+  * E.g. @n
+  * This deallocates dsp_eco variable.
+  * @code
+  * ...
+  * int main(void)
+  * {
+  *     dsp_eco_t *dsp_eco;
+  *     ...
+  *     // Code to init dsp_eco
+  *     ...
+  *     dsp_effect_eco_deinit(dsp_eco);
+  *     while(1)
+  *     {
+  *     }
+  * }
+  * ...
+  * @endcode
+  */
+void dsp_effect_eco_deinit(dsp_eco_t *eco);
+
+/** ### dsp:effect:eco
+  * @ingroup public_eco
+  * @brief Execute an eco effect from /eco preinicializated variable.
+  * 
+  * Compute a /x eco from /x with /eco configs.
+  * 
+  * Eq.
+  *   y = (/x * /eco->dry) + (x_delayed * /eco->wet);
+  *   where:
+  *     x_delayed is a x readed from ciruclar buffer [x delayed /eco->delay seconds].
+  *     x to save on circular_buffer is:
+  *     x = /x + (x_delayed * /eco->feedback).
+  * 
+  * @param[in] eco dsp_eco_t configs to apply eco effect.
+  * @param[in] x Input to compute eco effect.
+  * 
+  * @return Computed eco /x.
+  * 
+  * @note Based on ECO basics diagram at https://wiki.analog.com/resources/tools-software/sharc-audio-module/baremetal/delay-effect-tutorial
+  * 
+  * @see dsp_eco_t eco datatype
+  * 
+  * E.g. @n
+  * This apply eco effect with default wet, dry & feedback, delay = 250 ms
+  * fs = 44100;
+  * @code
+  * ...
+  * #include "dsp.h"
+  * 
+  * int main(void)
+  * {
+  *     dsp_eco_t *dsp_eco;
+  *     
+  *     dsp_eco = dsp_effect_eco_init(0.25f, 44100);
+  *     
+  *     if (dsp_eco == NULL)
+  *         while(1) {}
+  *     
+  *     while(1)
+  *     {
+  *         ...
+  *         // bucle run at 44.1 kHz.
+  *         float x = adc; // Some discrete value.
+  *         dsp_effect_eco(dsp_eco, x);
+  *         ...
+  *     }
+  * }
+  * ...
+  * @endcode
+  */
+float dsp_effect_eco(dsp_eco_t *eco, float x);
+
+/** ### dsp:effect:eco:update
+  * @ingroup public_dsp
+  * @brief Update current delay from eco effect.
+  * 
+  * Update /eco->delay value (> 0 && <= /eco->mdelay)
+  * 
+  * @param[in] eco dsp_eco_t to update delay
+  * @param[in] delay target delay.
+  * 
+  * @return None
+  * 
+  * @see dsp_eco_t
+  * 
+  * E.g. @n
+  * This modify current eco delay to 50 ms from 250 ms at i = 10,
+  * amd finally to 75 from 50 ms at i = 20.
+  * @code
+  * ...
+  * #include "dsp.h"
+  * 
+  * int main(void)
+  * {
+  *     dsp_eco_t *dsp_eco;
+  *     
+  *     dsp_eco = dsp_effect_eco_init(0.25f, 44100);
+  *     
+  *     if (dsp_eco == NULL)
+  *         while(1) {}
+  *     
+  *     uint8_t i = 0;
+  *     while(1)
+  *     {
+  *         ..
+  *         // bucle run at 44.1 kHz.
+  *         float x = adc; // Some discrete value.
+  *         dsp_effect_eco(dsp_eco, x);
+  *         
+  *         i += 1;
+  *         if(i == 10)
+  *         {
+  *             dsp_effect_eco_update(dsp_eco, 0.05f);
+  *         }
+  *         else if (i == 20)
+  *         {
+  *             dsp_effect_eco_update(dsp_eco, 0.075f);
+  *         }
+  *         ...
+  *     }
+  * }
+  * ...
+  * @endcode
+  */
+void dsp_effect_eco_update(dsp_eco_t *eco, float delay);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
-
 #endif /* _DSP_H_ */

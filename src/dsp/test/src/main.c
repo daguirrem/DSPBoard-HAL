@@ -1,9 +1,9 @@
 /**
  * @file main.c
  * @author David A. Aguirre M. <daguirre.m@outlook.com>
- * @brief Test for DSP Library
+ * @brief Test for DSP Library.
  * @version d0.1
- * @date 2023-01-27
+ * @date 2023-07-04
  * 
  * @copyright MIT License, Copyright (c) 2023 David A. Aguirre M. @n @n
  *
@@ -27,7 +27,9 @@
  * 
  */
 
+
 #include "system.h"
+#include "utils.h"
 #include "dsp.h"
 
 float a[10] = 
@@ -42,14 +44,14 @@ __CCM_VAR_I float b[10] =
 
 int main (void)
 {
-    /* FIR TEST ------------------------------------------------------------- */
+    /* FIR Declaration ------------------------------------------------------ */
     /* Static testing */
     /* Normal */
     /* This should create a variable named 'fir_static' with order 10 ------| */
     dsp_filter_fir_declarate(fir_static, 10);                          /* <-| */ /*[ok]*/
     
     /* This should assign B coiefficients to Filter B Coefficient at LowPass| */
-    fir_static->b.low = &b[0];                                          /* <-| */ /*[ok]*/
+    fir_static->b.low = &b[0];                                         /* <-| */ /*[ok]*/
 
     /* CCM */
     /* This should create a variable named 'fir_ccm' with order 10 ---------| */
@@ -57,22 +59,22 @@ int main (void)
     dsp_filter_fir_declarate(fir_ccm, 10, __CCM_VAR_I);                /* <-| */ /*[ok]*/
 
     /* This should assign B coiefficients to Filter B Coefficient at LowPass| */
-    fir_ccm->b.low = &b[0];                                             /* <-| */ /*[ok]*/
+    fir_ccm->b.low = &b[0];                                            /* <-| */ /*[ok]*/
 
     /* Dynamic allocation testing */
     fir_t *fir_dynamic = dsp_filter_fir_init(10);
     dsp_filter_fir_coeff_init(fir_dynamic, FILTER_TYPE_LOWPASS, (float *) &b);
 
-    /* IIR TEST ------------------------------------------------------------- */
+    /* IIR Declaration ------------------------------------------------------ */
     /* Static testing */
     /* Normal */
     /* This should create a variable named 'fir_static' with order 10 ------| */
     dsp_filter_iir_declarate(iir_static, 10);                          /* <-| */ /*[ok]*/
     
     /* This should assign A coiefficients to Filter A Coefficient at LowPass| */
-    iir_static->a.low = &a[0];                                          /* <-| */ /*[ok]*/
+    iir_static->a.low = &a[0];                                         /* <-| */ /*[ok]*/
     /* This should assign B coiefficients to Filter B Coefficient at LowPass| */
-    iir_static->b.low = &b[0];                                          /* <-| */ /*[ok]*/
+    iir_static->b.low = &b[0];                                         /* <-| */ /*[ok]*/
 
     /* CCM */
     /* This should create a variable named 'fir_ccm' with order 10 ---------| */
@@ -80,24 +82,42 @@ int main (void)
     dsp_filter_iir_declarate(iir_ccm, 10, __CCM_VAR_I);                /* <-| */ /*[ok]*/
 
     /* This should assign A coiefficients to Filter A Coefficient at LowPass| */
-    iir_ccm->a.low = &a[0];                                             /* <-| */ /*[ok]*/
+    iir_ccm->a.low = &a[0];                                            /* <-| */ /*[ok]*/
     /* This should assign B coiefficients to Filter B Coefficient at LowPass| */
-    iir_ccm->b.low = &b[0];                                             /* <-| */ /*[ok]*/
+    iir_ccm->b.low = &b[0];                                            /* <-| */ /*[ok]*/
 
+    /* Dynamic allocation testing */
     iir_t *iir_dynamic = dsp_filter_iir_init(10);
     dsp_filter_iir_coeff_init(iir_dynamic, FILTER_TYPE_LOWPASS, &a[0], &b[0]);
 
-    dsp_filter_fir(fir_static, FILTER_TYPE_LOWPASS, 1);
-    dsp_filter_fir(fir_ccm, FILTER_TYPE_LOWPASS, 1);
-    dsp_filter_fir(fir_dynamic, FILTER_TYPE_LOWPASS, 1);
+    /* IIR TEST ------------------------------------------------------------- */
 
-    dsp_filter_iir(iir_static, FILTER_TYPE_LOWPASS, 1);
-    dsp_filter_iir(iir_ccm, FILTER_TYPE_LOWPASS, 1);
-    dsp_filter_iir(iir_dynamic, FILTER_TYPE_LOWPASS, 1);
+    dsp_filter_fir(fir_static, FILTER_TYPE_LOWPASS, 1);                          /*[ok]*/
+    dsp_filter_fir(fir_ccm, FILTER_TYPE_LOWPASS, 1);                             /*[ok]*/
+    dsp_filter_fir(fir_dynamic, FILTER_TYPE_LOWPASS, 1);                         /*[ok]*/
 
-    dsp_filter_fir_deinit(fir_dynamic);
-    dsp_filter_iir_deinit(iir_dynamic);
-    
+    /* IIR TEST ------------------------------------------------------------- */
+
+    dsp_filter_iir(iir_static, FILTER_TYPE_LOWPASS, 1);                          /*[ok]*/
+    dsp_filter_iir(iir_ccm, FILTER_TYPE_LOWPASS, 1);                             /*[ok]*/
+    dsp_filter_iir(iir_dynamic, FILTER_TYPE_LOWPASS, 1);                         /*[ok]*/
+
+    /* Filters deinit ------------------------------------------------------- */
+    dsp_filter_fir_deinit(fir_dynamic);                                          /*[ok]*/
+    dsp_filter_iir_deinit(iir_dynamic);                                          /*[ok]*/
+
+    dsp_delay_t *dsp_delay;
+    float delays = 0.1f;
+    float gains = 0.5;
+    dsp_delay = dsp_effect_delay_init(&delays, &gains, 44100);
+    dsp_effect_delay(dsp_delay, 1);
+    dsp_effect_delay_deinit(dsp_delay);
+
+    dsp_eco_t *dsp_eco;
+    dsp_eco = dsp_effect_eco_init(0.1f, 44100);
+    dsp_effect_eco(dsp_eco, 1);
+    dsp_effect_eco_deinit(dsp_eco);
+
     while(1)
     {
     }
