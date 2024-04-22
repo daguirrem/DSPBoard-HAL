@@ -4,48 +4,34 @@
 		{
 			"type": "shell",
 			"label": "build",
-			"args": [
-				"build",
-				/*Toolchain*/
-				"CMSIS_PATH=${config:path_CMSIS}",
-				"OPTIMIZATION=${config:compiler_option_optimization}",
-				"TOOLCHAIN=${config:path_toolchain}",
-				/*Build*/
-				"TARGET=${command:cpptools.activeConfigName}",
-				"PRJ_NAME=${config:name_project}",
-				"EXT_LIB_PATH=${config:path_lib}/src",
-				"EXT_LIB_INCLUDE=${config:path_lib}/include",
-				/*Config*/
-				"HSE_VALUE=${config:mcu_hse_frecuency}",
-				"FPU_HARDWARE=${config:mcu_fpu_hardware}"
-			],
+			"args": [],
 			"windows": {
 				"command": "${config:path_xpack_windows}/make.exe",
 				"args": [
 					"build",
-					/*Toolchain*/
+					/*SDK*/
+					"SDK=${config:path_sdk}",
 					"CMSIS_PATH=${config:path_CMSIS}",
-					"OPTIMIZATION=${config:compiler_option_optimization}",
 					"TOOLCHAIN=${config:path_toolchain}",
-					/*Build*/
-					"TARGET=${command:cpptools.activeConfigName}",
+					/*Build Config*/
 					"PRJ_NAME=${config:name_project}",
+					"TARGET=${command:cpptools.activeConfigName}",
+					"OPTIMIZATION=${config:compiler_option_optimization}",
 					"EXT_LIB_PATH=${config:path_lib}/src",
 					"EXT_LIB_INCLUDE=${config:path_lib}/include",
-					/*Config*/
+					/*MCU Config*/
 					"HSE_VALUE=${config:mcu_hse_frecuency}",
 					"FPU_HARDWARE=${config:mcu_fpu_hardware}",
-					/*Other*/
+					/*Windows XPACK*/
 					"XPACK=${config:path_xpack_windows}"
 				]
 			},
-			"linux":{
+			"linux": {
 				"command": "make",
 			},
-			"osx":{
+			"osx": {
 				"command": "make",
 			},
-			
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},
@@ -68,35 +54,27 @@
 		{
 			"type": "shell",
 			"label": "clean",
-			"args": [
-				"clean",
-				/*Toolchain*/
-				"CMSIS_PATH=${config:path_CMSIS}",
-				"OPTIMIZATION=${config:compiler_option_optimization}",
-				"TOOLCHAIN=${config:path_toolchain}",
-				/*Build*/
-				"TARGET=${command:cpptools.activeConfigName}",
-				"PRJ_NAME=${config:name_project}",
-			],
+			"args": [],
 			"windows": {
 				"command": "${config:path_xpack_windows}/make.exe",
 				"args": [
 					"clean",
-					/*Toolchain*/
+					/*SDK*/
+					"SDK=${config:path_sdk}",
 					"CMSIS_PATH=${config:path_CMSIS}",
-					"OPTIMIZATION=${config:compiler_option_optimization}",
 					"TOOLCHAIN=${config:path_toolchain}",
-					/*Build*/
-					"TARGET=${command:cpptools.activeConfigName}",
+					/*Build Config*/
 					"PRJ_NAME=${config:name_project}",
-					/*Other*/
+					"TARGET=${command:cpptools.activeConfigName}",
+					"OPTIMIZATION=${config:compiler_option_optimization}",
+					/*Windows XPACK*/
 					"XPACK=${config:path_xpack_windows}"
 				]
 			},
-			"linux":{
+			"linux": {
 				"command": "make",
 			},
-			"osx":{
+			"osx": {
 				"command": "make",
 			},
 			"options": {
@@ -115,51 +93,36 @@
 		{
 			"type": "shell",
 			"label": "program",
-			"args": [
-				"program",
-				/*Toolchain*/
-				"CMSIS_PATH=${config:path_CMSIS}",
-				"OPTIMIZATION=${config:compiler_option_optimization}",
-				"TOOLCHAIN=${config:path_toolchain}",
-				/*Build*/
-				"TARGET=${command:cpptools.activeConfigName}",
-				"PRJ_NAME=${config:name_project}",
-				"EXT_LIB_PATH=${config:path_lib}/src",
-				"EXT_LIB_INCLUDE=${config:path_lib}/include",
-				/*Config*/
-				"HSE_VALUE=${config:mcu_hse_frecuency}",
-				"FPU_HARDWARE=${config:mcu_fpu_hardware}",
-				"BMP_COMMAND=${config:path_sdk}/bmp/blackmagic",
-				"ST_COMMAND=${config:path_sdk}/utils/openocd/bin/openocd",
-				"PROGRAMMER=${config:programmer}"
-			],
+			"args": [],
 			"windows": {
 				"command": "${config:path_xpack_windows}/make.exe",
 				"args": [
 					"program",
-					/*Toolchain*/
+					/*SDK*/
+					"SDK=${config:path_sdk}",
 					"CMSIS_PATH=${config:path_CMSIS}",
-					"OPTIMIZATION=${config:compiler_option_optimization}",
 					"TOOLCHAIN=${config:path_toolchain}",
-					/*Build*/
-					"TARGET=${command:cpptools.activeConfigName}",
+					/*Build Config*/
 					"PRJ_NAME=${config:name_project}",
+					"TARGET=${command:cpptools.activeConfigName}",
+					"OPTIMIZATION=${config:compiler_option_optimization}",
 					"EXT_LIB_PATH=${config:path_lib}/src",
 					"EXT_LIB_INCLUDE=${config:path_lib}/include",
-					/*Config*/
+					/*MCU Config*/
 					"HSE_VALUE=${config:mcu_hse_frecuency}",
 					"FPU_HARDWARE=${config:mcu_fpu_hardware}",
-					/*Other*/
-					"XPACK=${config:path_xpack_windows}",
-					"BMP_COMMAND=${config:path_sdk}/bmp/blackmagic.exe",
-					"ST_COMMAND=${config:path_sdk}/utils/openocd/bin/openocd.exe",
-					"PROGRAMMER=${config:programmer}"
+					/*Programmer Config*/
+					"BMP_COMMAND=${config:path_sdk}/bmp/blackmagic",
+					"ST_COMMAND=${config:path_sdk}/utils/openocd/bin/openocd",
+					"PROGRAMMER=${config:programmer}",
+					/*XPACK Windows*/
+					"XPACK=${config:path_xpack_windows}"
 				]
 			},
-			"linux":{
+			"linux": {
 				"command": "make",
 			},
-			"osx":{
+			"osx": {
 				"command": "make",
 			},
 			"options": {
@@ -234,14 +197,14 @@
 			"type": "shell",
 			"label": "size",
 			"command": "${config:path_sdk}/utils/tools/size.ps1",
-			"windows":{
+			"windows": {
 				"args": [
 					"${config:path_toolchain}/bin/arm-none-eabi-size.exe",
 					"${workspaceFolder}/output/${command:cpptools.activeConfigName}/${config:name_project}.elf",
 					"1024", /*Flash size */
 					"128", /*RAM size */
-					"64",  /*CCM size */
-					"4",   /*BKP size */
+					"64", /*CCM size */
+					"4", /*BKP size */
 				],
 			},
 			"options": {
@@ -252,7 +215,9 @@
 				"kind": "build",
 				"isDefault": true
 			},
-			"dependsOn": ["build"],
+			"dependsOn": [
+				"build"
+			],
 			"presentation": {
 				"echo": false,
 				"reveal": "always",
@@ -265,7 +230,7 @@
 		{
 			"type": "shell",
 			"label": "reference manual",
-			"windows":{
+			"windows": {
 				"command": "& '${config:path_sdk}/docs/stm32f407_reference_manual.pdf'",
 			},
 			"options": {
@@ -284,7 +249,7 @@
 		{
 			"type": "shell",
 			"label": "datasheet",
-			"windows":{
+			"windows": {
 				"command": "& '${config:path_sdk}/docs/stm32f407_datasheet.pdf'",
 			},
 			"options": {
@@ -303,7 +268,7 @@
 		{
 			"type": "shell",
 			"label": "hal doc",
-			"windows":{
+			"windows": {
 				"command": "& '${config:path_sdk}/lib/hal/docs/html/index.html'",
 			},
 			"options": {
@@ -322,7 +287,7 @@
 		{
 			"type": "shell",
 			"label": "serial",
-			"windows":{
+			"windows": {
 				"command": "${config:path_sdk}/utils/tools/serial.ps1",
 			},
 			"options": {
@@ -338,8 +303,6 @@
 				"clear": true
 			}
 		}
-
 	],
-	"inputs": [
-	]
+	"inputs": []
 }

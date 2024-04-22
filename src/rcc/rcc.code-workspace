@@ -9,13 +9,13 @@
 			"path": "test"
 		}
 	],
-	"settings": {
 	/* User configurations */
-	"path_sdk": "D:/MEGAsync/STM/.dspboardSDK", //!< SDK Installation path
-	"programmer": "stlink", //!< Specify the programmer, only can be 'bmp' or 'stlink'.
+	// Note: 'path_sdk' & 'programmer' are now at vscode global settings.json, if overide uncomment below line.
+	// "path_sdk": "PATH_TO_SDK", //!< SDK Installation path
+	// "programmer": "stlink", //!< Specify the programmer, only can be 'bmp' or 'stlink'.
 	"bmp_port":  "COM1", //!< Black Magic Probe Debugger COM port. (If COM >= 10, then "\\\\.\\COMx")
 
-	/* Internal configurations. Don't touch if you don´t know what you doing. */
+	/* Internal configurations. Don't touch if you don't know what are you doing. */
 	"mcu": "stm32f407xx",
 	"mcu_hse_frecuency": "8000000UL",
 	"mcu_fpu_hardware" : "yes",
@@ -26,17 +26,25 @@
 	"path_CMSIS": "${config:path_sdk}/packs/STM32CubeF4/Drivers/CMSIS",
 	"path_device": "${config:path_CMSIS}/Device/ST/STM32F4xx",
 	"path_xpack_windows": "${config:path_sdk}/utils/xpack/bin",
-	"path_powershell": "${config:path_sdk}/powershell/pwsh.exe",
+	"path_powershell": "${config:path_sdk}/powershell",
 	"debug.showInStatusBar": "never",
 	"cortex-debug.openocdPath": "${config:path_sdk}/utils/openocd/bin/openocd.exe",
 	"cortex-debug.armToolchainPath": "${config:toolchainPath}/bin",
 	"terminal.integrated.profiles.windows": {
 		"SDKPowerShell": {
-			"path": "${config:path_powershell}",
+			"path": "${config:path_powershell}/pwsh.exe",
+			"icon": "terminal-powershell",
+			"overrideName": true
+		}
+	},
+	"terminal.integrated.profiles.linux": {
+		"SDKPowerShell": {
+			"path": "${config:path_powershell}/pwsh",
 			"icon": "terminal-powershell",
 			"overrideName": true
 		}
 	},
 	"terminal.integrated.defaultProfile.windows": "SDKPowerShell",
+	"terminal.integrated.defaultProfile.linux": "SDKPowerShell"
 	}
 }
