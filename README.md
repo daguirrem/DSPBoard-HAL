@@ -14,7 +14,7 @@ Este repositorio contiene las librerías HAL para la tarjeta _DSP Board_ usadas 
 ### Estructura del repositorio
 
 * **docs**  
-  Esta carpeta contiene la documentación de la fuente de código generada por doxygen (Inglés) [Documentación de la API](https://daguirrem.github.io/DSPBoardHAL/index.html)
+  Esta carpeta contiene la documentación de la fuente de código generada por doxygen (Inglés) [Documentación de la API](https://daguirrem.github.io/DSPBoard-HAL/index.html)
 
 * **src**  
   Esta carpeta contiene el codigo fuente de las siguientes librerías:  
